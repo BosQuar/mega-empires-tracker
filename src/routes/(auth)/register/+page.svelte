@@ -13,7 +13,7 @@
 		<div class="flex flex-col space-y-2 text-center">
 			<h1 class="text-2xl font-semibold tracking-tight">Register below to create a user</h1>
 			<p class="text-sm text-muted-foreground font-normal">
-				Already have a user?<a
+				Already have a user? <a
 					href="/sign-in"
 					class="underline underline-offset-4 hover:text-primary"
 				>

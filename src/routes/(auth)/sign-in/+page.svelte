@@ -13,7 +13,7 @@
 		<div class="flex flex-col space-y-2 text-center">
 			<h1 class="text-2xl font-semibold tracking-tight">Sign in and buy fundamentalism</h1>
 			<p class="text-sm text-muted-foreground font-normal">
-				Don't have a user?<a
+				Don't have a user? <a
 					href="/register"
 					class="underline underline-offset-4 hover:text-primary"
 				>
