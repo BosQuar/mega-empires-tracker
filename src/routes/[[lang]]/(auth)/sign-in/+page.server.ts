@@ -21,7 +21,7 @@ export const actions = {
 			});
 		}
 
-		const user = await verifyLogin(form.data.email, form.data.password);
+		const user = await verifyLogin(form.data.username, form.data.password);
 
 		if (!user) {
 			return setError(form, '', `The email or password that you've entered is incorrect.`);

@@ -24,10 +24,7 @@ seed()
 async function dbQueries() {
 	await prisma.user.create({
 		data: {
-			email: 'o@t.t',
-			firstName: 'O',
-			surname: 'B',
-			role: 'user',
+			username: 'oskar',
 			password: {
 				create: {
 					hash: await bcrypt.hash('qweQWE123', 10)

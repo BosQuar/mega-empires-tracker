@@ -1,4 +1,4 @@
-import { createUser, type User } from '$lib/server/user.server';
+import { createUser } from '$lib/server/user.server';
 
 import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms/server';
@@ -22,14 +22,7 @@ export const actions = {
 			});
 		}
 
-		const newUser: Pick<User, 'firstName' | 'surname' | 'email' | 'role'> = {
-			firstName: form.data.firstName,
-			surname: form.data.surname,
-			email: form.data.email,
-			role: 'user'
-		};
-
-		const user = await createUser(newUser, form.data.password);
+		const user = await createUser(form.data.username, form.data.password);
 
 		const value = btoa(JSON.stringify(user));
 		event.cookies.set('user-jwt', value, {

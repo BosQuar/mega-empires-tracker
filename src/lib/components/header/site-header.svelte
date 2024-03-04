@@ -1,42 +1,46 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import { getRouteWithLang } from '$lib/inlang/i18nrouting';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { m } from '$lib/inlang/messages';
-	import { setCapitalCase } from '$lib/utils';
-	import {
-		availableLanguageTags,
-		languageTag,
-		setLanguageTag,
-		type AvailableLanguageTag
-	} from '$paraglide/runtime';
 
-	import { Check } from 'lucide-svelte';
-	import MainNav from './main-nav.svelte';
-
+	import * as Dialog from '$lib/components/ui/dialog';
+	import type { Turn } from '@prisma/client';
+	import { turnsStore } from '../../../routes/[[lang]]/(protected)/turns-store';
 	import ModeToggle from '../header/mode-toggle.svelte';
-	import { Container } from '../layout/container';
-	import { Inline } from '../layout/inline';
 	import * as Avatar from '../ui/avatar';
+	import { Button } from '../ui/button';
 	import * as DropdownMenu from '../ui/dropdown-menu';
 
 	export let name: string;
-	export let email: string;
 
-	function setLanguage(lang: AvailableLanguageTag) {
-		if (lang === languageTag()) {
-			return;
+	$: isDialogOpen = false;
+	$: isCreatingNew = false;
+
+	async function createNew() {
+		isCreatingNew = true;
+		let turns: Turn[] = [];
+
+		try {
+			const response = await fetch('/api/game', {
+				method: 'POST'
+			});
+
+			turns = await response.json();
+		} catch (error) {
+			console.log(error);
 		}
-		setLanguageTag(lang);
-		goto(getRouteWithLang($page.url.pathname, lang));
+
+		isCreatingNew = false;
+		isDialogOpen = false;
+
+		invalidateAll();
 	}
 </script>
 
 <header
 	class="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
-	<div class="container flex h-14 max-w-screen-2xl items-center">
-		<MainNav />
+	<div class="container flex h-14 max-w-screen-2xl items-center px-2">
+		<!-- Add summary? -->
 		<div class="flex flex-1 items-center gap-x-2 justify-end">
 			<ModeToggle />
 			<DropdownMenu.Root>
@@ -50,29 +54,14 @@
 					<DropdownMenu.Label class="font-normal">
 						<div class="flex flex-col space-y-1">
 							<p class="text-sm font-medium leading-none">{name}</p>
-							<p class="text-xs leading-none text-muted-foreground">{email}</p>
 						</div>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Group>
-						<DropdownMenu.Item><a href="/profile"> {m.headerProfile()}</a></DropdownMenu.Item>
-						<DropdownMenu.Sub>
-							<DropdownMenu.SubTrigger>{m.headerSetLanguage()}</DropdownMenu.SubTrigger>
-							<DropdownMenu.SubContent>
-								{#each availableLanguageTags as tag}
-									<DropdownMenu.Item on:click={() => setLanguage(tag)}>
-										<Inline>
-											<Container class="h-4 w-4 items-center">
-												{#if tag === languageTag()}
-													<Check />
-												{/if}
-											</Container>
-											{setCapitalCase(tag)}
-										</Inline>
-									</DropdownMenu.Item>
-								{/each}
-							</DropdownMenu.SubContent>
-						</DropdownMenu.Sub>
+						<DropdownMenu.Item
+							on:click={() => ($turnsStore.length > 0 ? (isDialogOpen = true) : createNew())}
+							>{m.headerCreateNew()}</DropdownMenu.Item
+						>
 					</DropdownMenu.Group>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Item on:click={() => goto('/sign-out')}
@@ -83,3 +72,20 @@
 		</div>
 	</div>
 </header>
+
+<Dialog.Root bind:open={isDialogOpen}>
+	<Dialog.Content>
+		<Dialog.Header>
+			<Dialog.Title>Create new game</Dialog.Title>
+			<Dialog.Description
+				>All previous game data will be deleted. Do you want to proceed?</Dialog.Description
+			>
+		</Dialog.Header>
+
+		<Dialog.Footer class="justify-between">
+			<Button variant="destructive" on:click={() => createNew()} disabled={isCreatingNew}
+				>Create new</Button
+			>
+		</Dialog.Footer>
+	</Dialog.Content>
+</Dialog.Root>
