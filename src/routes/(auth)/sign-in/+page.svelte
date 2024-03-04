@@ -5,7 +5,7 @@
 
 	export let data;
 
-	const { errors, form } = superForm(data.form, {});
+	const { errors, form } = superForm(data.form, { id: 'sign-in' });
 </script>
 
 <div class="px-2 lg:p-8">
