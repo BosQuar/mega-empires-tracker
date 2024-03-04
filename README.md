@@ -1,11 +1,12 @@
-# Fullstack starter kit
+# Mega empire tracker
 
-A starterkit with a multitude of functionality already setup. Repo is powered by:
+A mega/wester/eastern empire tracker. Currently a work in progress, but goal is to have a tracker that speeds up the process when i.e. buying civilization advances and view turn history for fun.
+
+Repo is powered by:
 
 - Sveltekit
 - Tailwind
 - Prettier/eslint
-- i18n with paraglidejs
 - mode toggle(dark/light)
 - Shadcn-svelte for components and theme(customisable)
 - Prisma
