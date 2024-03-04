@@ -9,8 +9,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		alias: {
-			$lib: './src/lib',
-			$paraglide: './src/paraglide'
+			$lib: './src/lib'
 		},
 		// Need for crawling to work until
 		// https://github.com/sveltejs/kit/issues/11133

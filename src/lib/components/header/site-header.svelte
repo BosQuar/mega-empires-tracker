@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { goto, invalidateAll } from '$app/navigation';
-	import { m } from '$lib/inlang/messages';
 
 	import * as Dialog from '$lib/components/ui/dialog';
 	import type { Turn } from '@prisma/client';
-	import { turnsStore } from '../../../routes/[[lang]]/(protected)/turns-store';
+	import { turnsStore } from '../../../routes/(protected)/turns-store';
 	import ModeToggle from '../header/mode-toggle.svelte';
 	import * as Avatar from '../ui/avatar';
 	import { Button } from '../ui/button';
@@ -60,13 +59,11 @@
 					<DropdownMenu.Group>
 						<DropdownMenu.Item
 							on:click={() => ($turnsStore.length > 0 ? (isDialogOpen = true) : createNew())}
-							>{m.headerCreateNew()}</DropdownMenu.Item
+							>Create new</DropdownMenu.Item
 						>
 					</DropdownMenu.Group>
 					<DropdownMenu.Separator />
-					<DropdownMenu.Item on:click={() => goto('/sign-out')}
-						>{m.headerLogout()}</DropdownMenu.Item
-					>
+					<DropdownMenu.Item on:click={() => goto('/sign-out')}>Log out</DropdownMenu.Item>
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
 		</div>
