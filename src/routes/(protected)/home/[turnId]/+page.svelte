@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { civilizationAdvances } from '$lib/civilizationAdvances/values.js';
+
 	import { Spread } from '$lib/components/layout/spread/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Form from '$lib/components/ui/form';
@@ -11,6 +13,10 @@
 	form.data.people = turn.people.toString();
 	form.data.cities = turn.cities.toString();
 	form.data.isTurnPlayed = turn.isTurnPlayed;
+	form.data.civilizationAdvances = turn.cardsBought.toString();
+
+	console.log(civilizationAdvances);
+	console.log(form.data);
 </script>
 
 <Form.Root method="POST" {form} schema={formSchema} let:config class="max-w-[600px]">
@@ -28,6 +34,13 @@
 		<Form.Label>AST advance</Form.Label>
 		<Form.Input type="number" min="-2" max="1" />
 		<Form.Validation />
+	</Form.Field>
+	<Form.Field name="civilizationAdvances" {config}>
+		<Form.Item>
+			<Form.Label>Civilization Advances</Form.Label>
+			<Form.MultiSelectAdvances items={civilizationAdvances} />
+			<Form.Validation />
+		</Form.Item>
 	</Form.Field>
 	<Form.Field name="isTurnPlayed" {config}>
 		<Form.Label>Is turn played</Form.Label>

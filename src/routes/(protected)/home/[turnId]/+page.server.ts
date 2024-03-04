@@ -36,7 +36,7 @@ export const actions = {
 			cities: parseInt(form.data.cities, 10),
 			isTurnPlayed: form.data.isTurnPlayed,
 			id: parseInt(event.params.turnId, 10),
-			cardsBought: [],
+			cardsBought: form.data.civilizationAdvances.split(','),
 			calamities: []
 		};
 

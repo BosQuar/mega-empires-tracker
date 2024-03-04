@@ -23,6 +23,7 @@
 		"bcryptjs": "^2.4.3",
 		"bits-ui": "^0.18.6",
 		"clsx": "^2.1.0",
+		"cmdk-sv": "^0.0.12",
 		"formsnap": "^0.4.4",
 		"leaflet": "^1.9.3",
 		"leaflet.markercluster": "^1.5.3",

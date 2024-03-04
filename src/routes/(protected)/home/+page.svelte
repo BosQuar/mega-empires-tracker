@@ -3,9 +3,10 @@
 	import { Spread } from '$lib/components/layout/spread';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import * as Sheet from '$lib/components/ui/sheet';
 	import type { Turn } from '@prisma/client';
-	import { Check, Home, PersonStanding } from 'lucide-svelte';
-	import { turnsStore } from '../turns-store';
+	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
+	import { turnsStore } from '../../../lib/stores/turns-store';
 
 	async function addTurn() {
 		let turn: Turn;
@@ -21,6 +22,8 @@
 	}
 </script>
 
+<h1>Turns:</h1>
+
 <Accordion.Root class="w-full sm:max-w-[70%] py">
 	{#each $turnsStore.sort((firstItem, secondItem) => firstItem.turnNumber - secondItem.turnNumber) as turn}
 		<Accordion.Item value={turn.turnNumber.toString()}>
@@ -30,26 +33,34 @@
 						{turn.turnNumber}
 					</div>
 					<Inline gap="gap-x-0">
-						<Home></Home>
+						<Home />
 						: {turn.cities}
 					</Inline>
 					<Inline gap="gap-x-0">
-						<PersonStanding></PersonStanding>
+						<PersonStanding />
 						: {turn.people}
+					</Inline>
+					<Inline gap="gap-x-0">
+						<CreditCard />
+						: {turn.cardsBought.length}
 					</Inline>
 
 					<div class="w-6">
 						{#if turn.isTurnPlayed}
-							<Check></Check>
+							<Check />
 						{/if}
 					</div>
 				</Spread>
 			</Accordion.Trigger>
 			<Accordion.Content>
-				<p>People: {turn.people}</p>
-				<p>Cities: {turn.cities}</p>
 				<p>Ast advance: {turn.astAdvance}</p>
-				<p>Cards bought: {turn.cardsBought.length}</p>
+				<p>Cards:</p>
+				{#each turn.cardsBought as cardName}
+					<li>
+						{cardName}
+					</li>
+				{/each}
+
 				<div class="flex justify-end">
 					<a href={`/home/${turn.id}`}>
 						<Button>Edit</Button>
@@ -66,4 +77,22 @@
 	{:else}
 		<p>Select menu and create new</p>
 	{/if}
+</div>
+
+<div class="absolute bottom-2 left-2">
+	<Sheet.Root>
+		<Sheet.Trigger>
+			<Button>Stats</Button>
+		</Sheet.Trigger>
+
+		<Sheet.Content>
+			<Sheet.Header>
+				<Sheet.Title>Are you sure absolutely sure?</Sheet.Title>
+				<Sheet.Description>
+					This action cannot be undone. This will permanently delete your account and remove your
+					data from our servers.
+				</Sheet.Description>
+			</Sheet.Header>
+		</Sheet.Content>
+	</Sheet.Root>
 </div>
