@@ -84,7 +84,7 @@
 		};
 	}
 
-	function getDiscount(card: CivilizationAdvance, turnNumber: number) {
+	function getDiscountedCost(card: CivilizationAdvance, turnNumber: number) {
 		const hasDiscountedByAdvanceCard = $cardsBoughtStore.includes(
 			card.discountedByAdvance ? card.discountedByAdvance : ''
 		);
@@ -173,9 +173,34 @@
 						.sort((a, b) => a.name.localeCompare(b.name)) as item}
 						<Command.Item onSelect={() => addItem(item.name)}>
 							<Spread>
-								<span class="min-w-[100px]">{item.name}</span>
-								<span>{item.cost}</span>
-								<span>{getDiscount(item, turnNumber)}</span>
+								<span class="min-w-[100px]"
+									><span>
+										{#if item.color.green}
+											<span class="text-green-500">G</span>
+										{/if}
+										{#if item.color.blue}
+											<span class="text-blue-500">B</span>
+										{/if}
+										{#if item.color.orange}
+											<span class="text-orange-500">O</span>
+										{/if}
+										{#if item.color.yellow}
+											<span class="text-yellow-500">Y</span>
+										{/if}
+										{#if item.color.red}
+											<span class="text-red-500">R</span>
+										{/if}
+									</span>{item.name}</span
+								>
+
+								{#if getDiscountedCost(item, turnNumber) === item.cost}
+									<span>{item.cost}</span>
+								{:else}
+									<span>
+										<span class="text-red-500">{`${getDiscountedCost(item, turnNumber)} `}</span>
+										<span>{`(${item.cost})`}</span>
+									</span>
+								{/if}
 								<span class="text-green-500"> {item.discountGreen}</span>
 								<span class="text-blue-500"> {item.discountBlue}</span>
 								<span class="text-orange-500"> {item.discountOrange}</span>
