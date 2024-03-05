@@ -6,6 +6,6 @@ export const formSchema = z.object({
 	cardsCost: z.string(),
 	cardsDiscount: z.string(),
 	civilizationAdvances: z.string(),
-	isTurnPlayed: z.boolean()
+	isDone: z.boolean()
 });
 export type FormSchemaCreate = typeof formSchema;

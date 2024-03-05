@@ -37,7 +37,7 @@ model Turn {
   cities      Int
   people      Int
   astAdvance  Int
-  isTurnPlayed  Boolean
+  isDone  Boolean
   calamities  String[]
 }
 

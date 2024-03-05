@@ -35,7 +35,7 @@ export const actions = {
 			astAdvance: parseInt(form.data.astAdvance, 10),
 			people: parseInt(form.data.people, 10),
 			cities: parseInt(form.data.cities, 10),
-			isTurnPlayed: form.data.isTurnPlayed,
+			isDone: form.data.isDone,
 			cardsCost: parseInt(form.data.cardsCost, 10),
 			cardsDiscount: parseInt(form.data.cardsDiscount, 10),
 			cardsBought: form.data.civilizationAdvances.split(',').filter((c) => c !== ''),

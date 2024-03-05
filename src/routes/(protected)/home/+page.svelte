@@ -1,12 +1,29 @@
 <script lang="ts">
+	import type { CivilizationAdvance } from '$lib/civilizationAdvances/types';
 	import { Inline } from '$lib/components/layout/inline';
 	import { Spread } from '$lib/components/layout/spread';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
-	import { turnsStore } from '$lib/stores/turns-store';
+	import { turnAccumulatedStore, turnsStore } from '$lib/stores/turns-store';
 	import type { Turn } from '@prisma/client';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
+
+	let accumulatedData: {
+		cardsBought: CivilizationAdvance[];
+		cardsCost: number;
+		cardsDiscount: number;
+		astAdvance: number;
+		calamities: string[];
+	} = {
+		cardsBought: [],
+		cardsCost: 0,
+		cardsDiscount: 0,
+		astAdvance: 0,
+		calamities: []
+	};
+
+	turnAccumulatedStore.subscribe((accumulatedTurns) => (accumulatedData = accumulatedTurns));
 
 	async function addTurn() {
 		let turn: Turn;
@@ -46,7 +63,7 @@
 					</Inline>
 
 					<div class="w-6">
-						{#if turn.isTurnPlayed}
+						{#if turn.isDone}
 							<Check />
 						{/if}
 					</div>
@@ -92,6 +109,18 @@
 				<Sheet.Title>Stats</Sheet.Title>
 				<Sheet.Description>Accumulated stats for all played turns.</Sheet.Description>
 			</Sheet.Header>
+			<p>Victory Points</p>
+			sum different cards
+			<p>Ast advance</p>
+			{accumulatedData.astAdvance}
+			<p>Cards cost</p>
+			{accumulatedData.cardsCost}
+			<p>Accumulated discount</p>
+			{accumulatedData.cardsDiscount}
+			<p>Cards</p>
+			{#each accumulatedData.cardsBought as card}
+				<li>{card.name}</li>
+			{/each}
 		</Sheet.Content>
 	</Sheet.Root>
 </div>

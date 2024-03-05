@@ -7,7 +7,7 @@ export const discountByTurnStore = derived(turnsStore, (turns) =>
 		.map((turn) => {
 			return {
 				turnNumber: turn.turnNumber,
-				isTurnPlayed: turn.isTurnPlayed,
+				isDone: turn.isDone,
 				cardsBought: turn.cardsBought
 					.map((cardName) => civilizationAdvances.filter((advance) => advance.name === cardName)[0])
 					.map((cardsBought) => {
@@ -24,7 +24,7 @@ export const discountByTurnStore = derived(turnsStore, (turns) =>
 		.map((turn) => {
 			return {
 				turnNumber: turn.turnNumber,
-				isTurnPlayed: turn.isTurnPlayed,
+				isDone: turn.isDone,
 				discount: turn.cardsBought.reduce(
 					(accumulator, currentValue) => {
 						return {
@@ -49,7 +49,7 @@ export const discountByTurnStore = derived(turnsStore, (turns) =>
 
 export const discountTotalStore = derived(discountByTurnStore, (discountByTurn) =>
 	discountByTurn
-		.filter((discountByTurn) => discountByTurn.isTurnPlayed)
+		.filter((discountByTurn) => discountByTurn.isDone)
 		.flat(1)
 		.reduce(
 			(accumulator, currentValue) => {

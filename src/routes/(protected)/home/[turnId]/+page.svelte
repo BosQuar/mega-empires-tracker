@@ -18,7 +18,7 @@
 	form.data.cardsDiscount = turn.cardsDiscount.toString();
 	form.data.cardsCost = turn.cardsCost.toString();
 
-	form.data.isTurnPlayed = turn.isTurnPlayed;
+	form.data.isDone = turn.isDone;
 	form.data.civilizationAdvances = turn.cardsBought.toString();
 
 	let cardsDiscount: number = turn.cardsDiscount;
@@ -40,11 +40,6 @@
 	<Form.Field name="people" {config}>
 		<Form.Label>People</Form.Label>
 		<Form.Input type="number" min="0" max="55" />
-		<Form.Validation />
-	</Form.Field>
-	<Form.Field name="cities" {config}>
-		<Form.Label>Cities</Form.Label>
-		<Form.Input type="number" min="0" max="9" />
 		<Form.Validation />
 	</Form.Field>
 	<Form.Field name="cities" {config}>
@@ -79,7 +74,7 @@
 			<Form.Validation />
 		</Form.Item>
 	</Form.Field>
-	<Form.Field name="isTurnPlayed" {config}>
+	<Form.Field name="isDone" {config}>
 		<Form.Label>Is turn played</Form.Label>
 		<Form.Checkbox />
 		<Form.Validation />

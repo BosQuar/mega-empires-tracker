@@ -16,7 +16,7 @@ export function getTurnById(id: number) {
 			cardsCost: true,
 			cardsDiscount: true,
 			astAdvance: true,
-			isTurnPlayed: true,
+			isDone: true,
 			calamities: true,
 			turnNumber: true
 		},
@@ -35,7 +35,7 @@ export function createTurn(
 		cities,
 		people,
 		astAdvance,
-		isTurnPlayed,
+		isDone,
 		calamities,
 		turnNumber,
 		cardsCost,
@@ -52,7 +52,7 @@ export function createTurn(
 			cardsCost,
 			cardsDiscount,
 			astAdvance,
-			isTurnPlayed,
+			isDone,
 			calamities,
 			createdBy: {
 				connect: {
@@ -74,7 +74,7 @@ export function updateTurn(
 		cities,
 		people,
 		astAdvance,
-		isTurnPlayed,
+		isDone,
 		calamities,
 		cardsCost,
 		cardsDiscount
@@ -91,7 +91,7 @@ export function updateTurn(
 			cities,
 			people,
 			astAdvance,
-			isTurnPlayed,
+			isDone,
 			calamities,
 			cardsCost,
 			cardsDiscount
