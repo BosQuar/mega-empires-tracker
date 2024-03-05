@@ -38,7 +38,7 @@
 	<Form.Field name="civilizationAdvances" {config}>
 		<Form.Item>
 			<Form.Label>Civilization Advances</Form.Label>
-			<Form.MultiSelectAdvances items={civilizationAdvances} />
+			<Form.MultiSelectAdvances items={civilizationAdvances} turnNumber={data.turn.turnNumber} />
 			<Form.Validation />
 		</Form.Item>
 	</Form.Field>

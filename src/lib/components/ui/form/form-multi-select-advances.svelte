@@ -9,6 +9,7 @@
 	export let items: CivilizationAdvance[] = [];
 	export let placeholder = 'Type to search...';
 	export let setFormValueAsArray = false;
+	export let turnNumber: number;
 
 	let selectedItems: string[] = [];
 
@@ -31,5 +32,6 @@
 	{items}
 	{selectedItems}
 	{placeholder}
+	{turnNumber}
 	on:selectedItems={(e) => setInputValue(e.detail)}
 />

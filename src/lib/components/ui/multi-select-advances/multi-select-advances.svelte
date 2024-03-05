@@ -4,7 +4,7 @@
 	import { Spread } from '$lib/components/layout/spread';
 	import { Stack } from '$lib/components/layout/stack';
 	import { cardsBoughtStore } from '$lib/stores/cards-bought-store';
-	import { getDiscount } from '$lib/stores/discount-store';
+	import { discountByTurnStore } from '$lib/stores/discount-store';
 	import { cn } from '$lib/utils';
 	import { X } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -16,6 +16,7 @@
 	export let items: CivilizationAdvance[] = [];
 	export let selectedItems: string[] = [];
 	export let id = '';
+	export let turnNumber: number;
 
 	//TODO: Dive into error on removing initial values that are not in reference list getting into reference list
 
@@ -82,6 +83,53 @@
 			}
 		};
 	}
+
+	function getDiscount(card: CivilizationAdvance, turnNumber: number) {
+		const hasDiscountedByAdvanceCard = $cardsBoughtStore.includes(
+			card.discountedByAdvance ? card.discountedByAdvance : ''
+		);
+
+		const discount = $discountByTurnStore
+			.filter((turn) => turn.turnNumber < turnNumber)
+			.reduce(
+				(accumulator, currentValue) => {
+					return {
+						red: accumulator.red + currentValue.discount.red,
+						green: accumulator.green + currentValue.discount.green,
+						blue: accumulator.blue + currentValue.discount.blue,
+						orange: accumulator.orange + currentValue.discount.orange,
+						yellow: accumulator.yellow + currentValue.discount.yellow
+					};
+				},
+				{
+					red: 0,
+					green: 0,
+					blue: 0,
+					orange: 0,
+					yellow: 0
+				}
+			);
+
+		const discountedByAdvanceValue = hasDiscountedByAdvanceCard
+			? card.discountedByAdvanceNumber
+			: 0;
+
+		const discountRed = card.color.red ? discount.red : 0;
+		const discountGreen = card.color.green ? discount.green : 0;
+		const discountBlue = card.color.blue ? discount.blue : 0;
+		const discountOrange = card.color.orange ? discount.orange : 0;
+		const discountYellow = card.color.yellow ? discount.yellow : 0;
+
+		const discountInventory = Math.max(
+			discountRed,
+			discountGreen,
+			discountBlue,
+			discountOrange,
+			discountYellow
+		);
+
+		return card.cost - discountedByAdvanceValue - discountInventory;
+	}
 </script>
 
 <svelte:window on:keydown={(key) => openListByKey(key)} />
@@ -127,7 +175,7 @@
 							<Spread>
 								<span class="min-w-[100px]">{item.name}</span>
 								<span>{item.cost}</span>
-								<span>{getDiscount(item)}</span>
+								<span>{getDiscount(item, turnNumber)}</span>
 								<span class="text-green-500"> {item.discountGreen}</span>
 								<span class="text-blue-500"> {item.discountBlue}</span>
 								<span class="text-orange-500"> {item.discountOrange}</span>
