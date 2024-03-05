@@ -54,6 +54,8 @@
 			</Accordion.Trigger>
 			<Accordion.Content>
 				<p>Ast advance: {turn.astAdvance}</p>
+				<p>Cards cost: {turn.cardsCost}</p>
+				<p>Cards discount: {turn.cardsDiscount}</p>
 				<p>Cards:</p>
 				{#each turn.cardsBought as cardName}
 					<li>
@@ -87,11 +89,8 @@
 
 		<Sheet.Content>
 			<Sheet.Header>
-				<Sheet.Title>Are you sure absolutely sure?</Sheet.Title>
-				<Sheet.Description>
-					This action cannot be undone. This will permanently delete your account and remove your
-					data from our servers.
-				</Sheet.Description>
+				<Sheet.Title>Stats</Sheet.Title>
+				<Sheet.Description>Accumulated stats for all played turns.</Sheet.Description>
 			</Sheet.Header>
 		</Sheet.Content>
 	</Sheet.Root>

@@ -4,10 +4,13 @@
 	import { Spread } from '$lib/components/layout/spread/index.js';
 	import { Button } from '$lib/components/ui/button';
 	import * as Form from '$lib/components/ui/form';
+	import { Input } from '$lib/components/ui/input/index.js';
+	import { Label } from '$lib/components/ui/label/index.js';
 	import { formSchema } from './schema.js';
 
 	export let data;
 	let { form, turn } = data;
+	let buyFor = 0;
 
 	form.data.astAdvance = turn.astAdvance.toString();
 	form.data.people = turn.people.toString();
@@ -54,9 +57,20 @@
 		<Form.Input type="number" min="-2" max="1" />
 		<Form.Validation />
 	</Form.Field>
+	<Label for="buy-for">Buy for</Label>
+	<Input id="buy-for" type="number" bind:value={buyFor} />
 	<Form.Field name="civilizationAdvances" {config}>
 		<Form.Item>
-			<Form.Label>Civilization Advances {`${cardsCost}`}</Form.Label>
+			<Form.Label
+				>Civilization Advances cost: {`${cardsCost}`}
+				{#if !buyFor}
+					<span></span>
+				{:else if buyFor < cardsCost}
+					<span>(To much:{cardsCost - buyFor})</span>
+				{:else if buyFor > cardsCost}
+					<span>(Remaing:{buyFor - cardsCost})</span>
+				{/if}
+			</Form.Label>
 			<Form.MultiSelectAdvances
 				items={civilizationAdvances}
 				turnNumber={data.turn.turnNumber}
