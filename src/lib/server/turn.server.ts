@@ -13,6 +13,8 @@ export function getTurnById(id: number) {
 			cardsBought: true,
 			cities: true,
 			people: true,
+			cardsCost: true,
+			cardsDiscount: true,
 			astAdvance: true,
 			isTurnPlayed: true,
 			calamities: true,
@@ -28,7 +30,17 @@ export function getTurnsByUser(createdById: number) {
 
 export type CreateTurn = Omit<Turn, 'updatedAt' | 'createdAt' | 'id' | 'createdById' | 'cuid'>;
 export function createTurn(
-	{ cardsBought, cities, people, astAdvance, isTurnPlayed, calamities, turnNumber }: CreateTurn,
+	{
+		cardsBought,
+		cities,
+		people,
+		astAdvance,
+		isTurnPlayed,
+		calamities,
+		turnNumber,
+		cardsCost,
+		cardsDiscount
+	}: CreateTurn,
 	createdById: number
 ) {
 	return prisma.turn.create({
@@ -37,6 +49,8 @@ export function createTurn(
 			cardsBought,
 			cities,
 			people,
+			cardsCost,
+			cardsDiscount,
 			astAdvance,
 			isTurnPlayed,
 			calamities,
@@ -54,7 +68,17 @@ export type UpdateTurn = Omit<
 	'updatedAt' | 'createdAt' | 'createdById' | 'cuid' | 'turnNumber'
 >;
 export function updateTurn(
-	{ id, cardsBought, cities, people, astAdvance, isTurnPlayed, calamities }: UpdateTurn,
+	{
+		id,
+		cardsBought,
+		cities,
+		people,
+		astAdvance,
+		isTurnPlayed,
+		calamities,
+		cardsCost,
+		cardsDiscount
+	}: UpdateTurn,
 	createdById: number
 ) {
 	return prisma.turn.update({
@@ -68,7 +92,9 @@ export function updateTurn(
 			people,
 			astAdvance,
 			isTurnPlayed,
-			calamities
+			calamities,
+			cardsCost,
+			cardsDiscount
 		}
 	});
 }

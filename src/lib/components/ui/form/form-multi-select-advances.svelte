@@ -11,7 +11,7 @@
 	export let setFormValueAsArray = false;
 	export let turnNumber: number;
 
-	let selectedItems: string[] = [];
+	let selectedItemsNames: string[] = [];
 
 	/* Basic HTML forms can only handle string values
 	https://superforms.rocks/concepts/nested-data#arrays-with-primitive-values */
@@ -20,7 +20,7 @@
 	}
 
 	onMount(() => {
-		selectedItems = ($value as string).split(',').filter((items) => items !== '');
+		selectedItemsNames = ($value as string).split(',').filter((items) => items !== '');
 	});
 </script>
 
@@ -30,8 +30,9 @@
 	id={$ids.input}
 	{...$$restProps}
 	{items}
-	{selectedItems}
+	{selectedItemsNames}
 	{placeholder}
 	{turnNumber}
-	on:selectedItems={(e) => setInputValue(e.detail)}
+	on:selectedItemsNames={(e) => setInputValue(e.detail)}
+	on:costAndDiscount
 />

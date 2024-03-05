@@ -31,16 +31,17 @@ export const actions = {
 		}
 
 		const turn: UpdateTurn = {
+			id: parseInt(event.params.turnId, 10),
 			astAdvance: parseInt(form.data.astAdvance, 10),
 			people: parseInt(form.data.people, 10),
 			cities: parseInt(form.data.cities, 10),
 			isTurnPlayed: form.data.isTurnPlayed,
-			id: parseInt(event.params.turnId, 10),
-			cardsBought: form.data.civilizationAdvances.split(','),
+			cardsCost: parseInt(form.data.cardsCost, 10),
+			cardsDiscount: parseInt(form.data.cardsDiscount, 10),
+			cardsBought: form.data.civilizationAdvances.split(',').filter((c) => c !== ''),
 			calamities: []
 		};
 
-		console.log(form.data);
 		try {
 			await updateTurn(turn, event.locals.user.id);
 		} catch (error) {

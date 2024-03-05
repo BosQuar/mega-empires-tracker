@@ -32,6 +32,8 @@ model Turn {
   updatedAt   DateTime @updatedAt
   turnNumber  Int
   cardsBought String[]
+  cardsCost   Int
+  cardsDiscount Int
   cities      Int
   people      Int
   astAdvance  Int

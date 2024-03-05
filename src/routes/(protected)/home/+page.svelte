@@ -4,9 +4,9 @@
 	import * as Accordion from '$lib/components/ui/accordion';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
+	import { turnsStore } from '$lib/stores/turns-store';
 	import type { Turn } from '@prisma/client';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
-	import { turnsStore } from '../../../lib/stores/turns-store';
 
 	async function addTurn() {
 		let turn: Turn;
@@ -63,7 +63,7 @@
 
 				<div class="flex justify-end">
 					<a href={`/home/${turn.id}`}>
-						<Button>Edit</Button>
+						<Button type="button">Edit</Button>
 					</a>
 				</div>
 			</Accordion.Content>

@@ -3,8 +3,8 @@
 	import Inline from '$lib/components/layout/inline/inline.svelte';
 	import { Spread } from '$lib/components/layout/spread';
 	import { Stack } from '$lib/components/layout/stack';
-	import { cardsBoughtStore } from '$lib/stores/cards-bought-store';
 	import { discountByTurnStore } from '$lib/stores/discount-store';
+	import { turnsStore } from '$lib/stores/turns-store';
 	import { cn } from '$lib/utils';
 	import { X } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -14,11 +14,15 @@
 	export let placeholder = 'Type to search...';
 	export let disabled = false;
 	export let items: CivilizationAdvance[] = [];
-	export let selectedItems: string[] = [];
+	export let selectedItemsNames: string[] = [];
 	export let id = '';
 	export let turnNumber: number;
 
-	//TODO: Dive into error on removing initial values that are not in reference list getting into reference list
+	const dispatchSelectedItemsNames =
+		createEventDispatcher<Record<'selectedItemsNames', string[]>>();
+	const dispatchCostAndDiscount =
+		createEventDispatcher<Record<'costAndDiscount', { cost: number; discount: number }>>();
+	let localItems: CivilizationAdvance[] = JSON.parse(JSON.stringify(items));
 
 	const referenceItems = items;
 	const isReferenceItem = (value: string) =>
@@ -26,30 +30,47 @@
 			(referenceItem) => referenceItem.name.toLowerCase() === value.toLowerCase()
 		);
 
-	const dispatch = createEventDispatcher<Record<'selectedItems', string[]>>();
-
 	let value = '';
 	let showList = false;
 	let isFocused = false;
 
-	$: dispatch('selectedItems', selectedItems);
+	$: dispatchSelectedItemsNames('selectedItemsNames', selectedItemsNames);
 	$: items = items.filter(
 		(item) =>
 			isReferenceItem(item.name) &&
-			!selectedItems.some((selectedItem) => selectedItem.toLowerCase() === item.name.toLowerCase())
+			!selectedItemsNames.some(
+				(selectedItem) => selectedItem.toLowerCase() === item.name.toLowerCase()
+			)
 	);
+
+	$: selectedItems = selectedItemsNames.map(
+		(name) => localItems.filter((item) => item.name === name)[0]
+	);
+
+	$: {
+		let cost = 0;
+		let discount = 0;
+		selectedItems.forEach((card) => {
+			let discountedCost = getDiscountedCost(card, turnNumber);
+			cost += discountedCost;
+			discount += card.cost - discountedCost;
+		});
+		dispatchCostAndDiscount('costAndDiscount', { cost, discount });
+	}
 	$: value.length > 0 ? setShowList(true) : setShowList(false);
 
 	function removeItem(value: string) {
-		selectedItems = selectedItems.filter((item) => item.toLowerCase() !== value.toLowerCase());
+		selectedItemsNames = selectedItemsNames.filter(
+			(item) => item.toLowerCase() !== value.toLowerCase()
+		);
 		const newValues = isReferenceItem(value)
 			? [...items, ...referenceItems.filter((item) => item.name === value)]
 			: items;
 		items = newValues.sort();
 	}
 
-	function addItem(selected: string): void {
-		selectedItems = [...selectedItems, selected];
+	function addItem(item: CivilizationAdvance): void {
+		selectedItemsNames = [...selectedItemsNames, item.name];
 		setShowList(false);
 		value = '';
 	}
@@ -85,9 +106,11 @@
 	}
 
 	function getDiscountedCost(card: CivilizationAdvance, turnNumber: number) {
-		const hasDiscountedByAdvanceCard = $cardsBoughtStore.includes(
-			card.discountedByAdvance ? card.discountedByAdvance : ''
-		);
+		const hasDiscountedByAdvanceCard = $turnsStore
+			.filter((turn) => turn.turnNumber < turnNumber)
+			.map((turn) => turn.cardsBought)
+			.flat(1)
+			.find((cardName) => cardName === card.discountedByAdvance);
 
 		const discount = $discountByTurnStore
 			.filter((turn) => turn.turnNumber < turnNumber)
@@ -135,13 +158,20 @@
 <svelte:window on:keydown={(key) => openListByKey(key)} />
 <Stack fullWidth>
 	<Inline>
-		{#each selectedItems as badge}
+		{#each selectedItems.sort((a, b) => a.name.localeCompare(b.name)) as selectedItem}
+			{@const discountedCost = getDiscountedCost(selectedItem, turnNumber)}
 			<Badge>
-				{badge}
+				<span>
+					{selectedItem.name}
+				</span>
+				<span class={discountedCost !== selectedItem.cost ? 'text-red-500' : ''}>
+					({discountedCost})
+				</span>
+
 				<button
 					type="button"
 					class=" ml-1 cursor-pointer"
-					on:click={() => (disabled ? null : removeItem(badge))}
+					on:click={() => (disabled ? null : removeItem(selectedItem.name))}
 				>
 					<X class="h-3 w-3 shrink-0 opacity-50" />
 				</button>
@@ -169,9 +199,15 @@
 					"
 				>
 					{#each items
-						.filter((item) => !$cardsBoughtStore.includes(item.name))
+						.filter((item) => !$turnsStore
+									.filter((turn) => turn.turnNumber < turnNumber)
+									.map((turn) => turn.cardsBought)
+									.flat(1)
+									.includes(item.name))
 						.sort((a, b) => a.name.localeCompare(b.name)) as item}
-						<Command.Item onSelect={() => addItem(item.name)}>
+						{@const discountedCost = getDiscountedCost(item, turnNumber)}
+
+						<Command.Item onSelect={() => addItem(item)}>
 							<Spread>
 								<span class="min-w-[100px]"
 									><span>
@@ -193,11 +229,11 @@
 									</span>{item.name}</span
 								>
 
-								{#if getDiscountedCost(item, turnNumber) === item.cost}
+								{#if discountedCost === item.cost}
 									<span>{item.cost}</span>
 								{:else}
 									<span>
-										<span class="text-red-500">{`${getDiscountedCost(item, turnNumber)} `}</span>
+										<span class="text-red-500">{`${discountedCost} `}</span>
 										<span>{`(${item.cost})`}</span>
 									</span>
 								{/if}

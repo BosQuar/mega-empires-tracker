@@ -26,6 +26,8 @@ const starterSetup: CreateTurn[] = [
 		cities: 0,
 		people: 2,
 		astAdvance: 0,
+		cardsCost: 0,
+		cardsDiscount: 0,
 		isTurnPlayed: true,
 		calamities: []
 	},
@@ -35,6 +37,8 @@ const starterSetup: CreateTurn[] = [
 		cities: 0,
 		people: 4,
 		astAdvance: 0,
+		cardsCost: 0,
+		cardsDiscount: 0,
 		isTurnPlayed: true,
 		calamities: []
 	},
@@ -44,6 +48,8 @@ const starterSetup: CreateTurn[] = [
 		cities: 0,
 		people: 8,
 		astAdvance: 0,
+		cardsCost: 0,
+		cardsDiscount: 0,
 		isTurnPlayed: true,
 		calamities: []
 	},
@@ -53,6 +59,8 @@ const starterSetup: CreateTurn[] = [
 		cities: 1,
 		people: 10,
 		astAdvance: 0,
+		cardsCost: 0,
+		cardsDiscount: 0,
 		isTurnPlayed: false,
 		calamities: []
 	}

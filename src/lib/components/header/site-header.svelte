@@ -43,11 +43,11 @@
 >
 	<div class="container flex h-14 max-w-screen-2xl items-center px-2">
 		<Spread class="text-sm pr-2">
-			<span class="text-green-500">G: {$discountTotalStore.green}</span>
-			<span class="text-blue-500">B: {$discountTotalStore.blue}</span>
-			<span class="text-orange-500">O: {$discountTotalStore.orange}</span>
-			<span class="text-yellow-500">Y: {$discountTotalStore.yellow}</span>
-			<span class="text-red-500">R: {$discountTotalStore.red}</span>
+			<span class="text-green-500">G: {$discountTotalStore.green ?? 0}</span>
+			<span class="text-blue-500">B: {$discountTotalStore.blue ?? 0}</span>
+			<span class="text-orange-500">O: {$discountTotalStore.orange ?? 0}</span>
+			<span class="text-yellow-500">Y: {$discountTotalStore.yellow ?? 0}</span>
+			<span class="text-red-500">R: {$discountTotalStore.red ?? 0}</span>
 		</Spread>
 		<div class="flex flex-1 items-center gap-x-2 justify-end">
 			<ModeToggle />

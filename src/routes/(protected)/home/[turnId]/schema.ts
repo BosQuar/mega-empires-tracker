@@ -3,6 +3,8 @@ export const formSchema = z.object({
 	people: z.string(),
 	cities: z.string(),
 	astAdvance: z.string(),
+	cardsCost: z.string(),
+	cardsDiscount: z.string(),
 	civilizationAdvances: z.string(),
 	isTurnPlayed: z.boolean()
 });

@@ -23,6 +23,8 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		cities: 0,
 		people: 0,
 		astAdvance: 0,
+		cardsCost: 0,
+		cardsDiscount: 0,
 		isTurnPlayed: false,
 		calamities: []
 	};

@@ -12,17 +12,36 @@
 	form.data.astAdvance = turn.astAdvance.toString();
 	form.data.people = turn.people.toString();
 	form.data.cities = turn.cities.toString();
+	form.data.cardsDiscount = turn.cardsDiscount.toString();
+	form.data.cardsCost = turn.cardsCost.toString();
+
 	form.data.isTurnPlayed = turn.isTurnPlayed;
 	form.data.civilizationAdvances = turn.cardsBought.toString();
 
-	console.log(civilizationAdvances);
-	console.log(form.data);
+	let cardsDiscount: number = turn.cardsDiscount;
+	let cardsCost: number = turn.cardsCost;
+
+	function setCostAndDiscount(cost: number, discount: number): void {
+		cardsCost = cost;
+		cardsDiscount = discount;
+	}
 </script>
 
 <Form.Root method="POST" {form} schema={formSchema} let:config class="max-w-[600px]">
+	<Form.Field name="cardsCost" {config}>
+		<Form.Input class="hidden" type="number" value={cardsCost} />
+	</Form.Field>
+	<Form.Field name="cardsDiscount" {config}>
+		<Form.Input class="hidden" type="number" value={cardsDiscount} />
+	</Form.Field>
 	<Form.Field name="people" {config}>
 		<Form.Label>People</Form.Label>
 		<Form.Input type="number" min="0" max="55" />
+		<Form.Validation />
+	</Form.Field>
+	<Form.Field name="cities" {config}>
+		<Form.Label>Cities</Form.Label>
+		<Form.Input type="number" min="0" max="9" />
 		<Form.Validation />
 	</Form.Field>
 	<Form.Field name="cities" {config}>
@@ -37,8 +56,12 @@
 	</Form.Field>
 	<Form.Field name="civilizationAdvances" {config}>
 		<Form.Item>
-			<Form.Label>Civilization Advances</Form.Label>
-			<Form.MultiSelectAdvances items={civilizationAdvances} turnNumber={data.turn.turnNumber} />
+			<Form.Label>Civilization Advances {`${cardsCost}`}</Form.Label>
+			<Form.MultiSelectAdvances
+				items={civilizationAdvances}
+				turnNumber={data.turn.turnNumber}
+				on:costAndDiscount={(e) => setCostAndDiscount(e.detail.cost, e.detail.discount)}
+			/>
 			<Form.Validation />
 		</Form.Item>
 	</Form.Field>
