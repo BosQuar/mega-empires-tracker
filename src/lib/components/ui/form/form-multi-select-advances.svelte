@@ -7,7 +7,7 @@
 	const { attrStore, value, ids } = getFormField();
 
 	export let items: CivilizationAdvance[] = [];
-	export let placeholder = 'Type to search...';
+	export let placeholder = 'Type to search by name...';
 	export let setFormValueAsArray = false;
 	export let turnNumber: number;
 

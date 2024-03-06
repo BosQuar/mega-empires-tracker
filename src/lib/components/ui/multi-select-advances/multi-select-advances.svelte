@@ -16,7 +16,7 @@
 	import * as Command from '../command';
 	import ListItem from './list-item.svelte';
 
-	export let placeholder = 'Type to search...';
+	export let placeholder = 'Type to search by name...';
 	export let disabled = false;
 	export let items: CivilizationAdvance[] = [];
 	export let selectedItemsNames: string[] = [];
@@ -222,34 +222,37 @@
 						.sort((a, b) => a.name.localeCompare(b.name))}
 
 					{#if vp1Cards.length}
-						<p>VP 1</p>
-						{#each vp1Cards as item}
-							{@const discountedCost = getDiscountedCost(item, turnNumber)}
+						<Command.Group heading="VP 1 (1-100 cost)">
+							{#each vp1Cards as item}
+								{@const discountedCost = getDiscountedCost(item, turnNumber)}
 
-							<Command.Item onSelect={() => addItem(item)}>
-								<ListItem {item} {discountedCost} />
-							</Command.Item>
-						{/each}
+								<Command.Item onSelect={() => addItem(item)}>
+									<ListItem {item} {discountedCost} />
+								</Command.Item>
+							{/each}
+						</Command.Group>
 					{/if}
 					{#if vp3Cards.length}
-						<p>VP 3</p>
-						{#each vp3Cards as item}
-							{@const discountedCost = getDiscountedCost(item, turnNumber)}
+						<Command.Group heading="VP 3 (100-200 cost)">
+							{#each vp3Cards as item}
+								{@const discountedCost = getDiscountedCost(item, turnNumber)}
 
-							<Command.Item onSelect={() => addItem(item)}>
-								<ListItem {item} {discountedCost} />
-							</Command.Item>
-						{/each}
+								<Command.Item onSelect={() => addItem(item)}>
+									<ListItem {item} {discountedCost} />
+								</Command.Item>
+							{/each}
+						</Command.Group>
 					{/if}
 					{#if vp6Cards.length}
-						<p>VP 6</p>
-						{#each vp6Cards as item}
-							{@const discountedCost = getDiscountedCost(item, turnNumber)}
+						<Command.Group heading="VP 6 (200< cost)">
+							{#each vp6Cards as item}
+								{@const discountedCost = getDiscountedCost(item, turnNumber)}
 
-							<Command.Item onSelect={() => addItem(item)}>
-								<ListItem {item} {discountedCost} />
-							</Command.Item>
-						{/each}
+								<Command.Item onSelect={() => addItem(item)}>
+									<ListItem {item} {discountedCost} />
+								</Command.Item>
+							{/each}
+						</Command.Group>
 					{/if}
 				</Command.List>
 				<Command.Empty>No results found.</Command.Empty>
