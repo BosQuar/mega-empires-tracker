@@ -156,7 +156,9 @@
 			discountYellow
 		);
 
-		return card.cost - discountedByAdvanceValue - discountInventory;
+		const cost = card.cost - discountedByAdvanceValue - discountInventory;
+
+		return cost < 0 ? 0 : cost;
 	}
 </script>
 
