@@ -172,6 +172,9 @@
 				<span class={discountedCost !== selectedItem.cost ? 'text-red-500' : ''}>
 					({discountedCost})
 				</span>
+				{#if discountedCost !== selectedItem.cost}
+					({selectedItem.cost})
+				{/if}
 
 				<button
 					type="button"
