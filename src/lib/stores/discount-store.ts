@@ -1,5 +1,5 @@
 import { civilizationAdvances } from '$lib/civilizationAdvances/values';
-import { derived } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
 import { turnsStore } from './turns-store';
 
 export const discountByTurnStore = derived(turnsStore, (turns) =>
@@ -70,3 +70,19 @@ export const discountTotalStore = derived(discountByTurnStore, (discountByTurn) 
 			}
 		)
 );
+
+type Bonus = {
+	red: number;
+	green: number;
+	blue: number;
+	orange: number;
+	yellow: number;
+};
+
+export const extraBonusStore = writable<Bonus>({
+	red: 0,
+	green: 0,
+	blue: 0,
+	orange: 0,
+	yellow: 0
+});

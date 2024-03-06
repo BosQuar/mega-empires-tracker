@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CivilizationAdvance } from '$lib/civilizationAdvances/types';
+	import { CivilizationAdvances, type CivilizationAdvance } from '$lib/civilizationAdvances/types';
 	import {
 		civilizationAdvancesVP1,
 		civilizationAdvancesVP3,
@@ -7,9 +7,14 @@
 	} from '$lib/civilizationAdvances/values';
 	import { Inline } from '$lib/components/layout/inline';
 	import { Spread } from '$lib/components/layout/spread';
+	import { Stack } from '$lib/components/layout/stack';
 	import * as Accordion from '$lib/components/ui/accordion';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import { Input } from '$lib/components/ui/input';
 	import * as Sheet from '$lib/components/ui/sheet';
+	import Switch from '$lib/components/ui/switch/switch.svelte';
+	import { cardsBoughtStore } from '$lib/stores/cards-bought-store';
+	import { extraBonusStore } from '$lib/stores/discount-store';
 	import { turnAccumulatedStore, turnsStore } from '$lib/stores/turns-store';
 	import type { Turn } from '@prisma/client';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
@@ -33,6 +38,36 @@
 		0
 	);
 
+	// Fix presistence!
+	let showWrittenRecordsInputs = false;
+	let showMonumentInputs = false;
+
+	let monumentRed = '0';
+	let monumentGreen = '0';
+	let monumentBlue = '0';
+	let monumentOrange = '0';
+	let monumentYellow = '0';
+	let writtenRecordRed = '0';
+	let writtenRecordGreen = '0';
+	let writtenRecordBlue = '0';
+	let writtenRecordOrange = '0';
+	let writtenRecordYellow = '0';
+
+	function parseStringNumber(stringNumber: string) {
+		return parseInt(stringNumber, 10) ? parseInt(stringNumber, 10) : 0;
+	}
+
+	$: monumentAndWrittenRecordBonus = {
+		red: parseStringNumber(writtenRecordRed) + parseStringNumber(monumentRed),
+		green: parseStringNumber(writtenRecordGreen) + parseStringNumber(monumentGreen),
+		blue: parseStringNumber(writtenRecordBlue) + parseStringNumber(monumentBlue),
+		orange: parseStringNumber(writtenRecordOrange) + parseStringNumber(monumentOrange),
+		yellow: parseStringNumber(writtenRecordYellow) + parseStringNumber(monumentYellow)
+	};
+
+	$: console.log(monumentAndWrittenRecordBonus);
+	$: extraBonusStore.set(monumentAndWrittenRecordBonus);
+
 	turnAccumulatedStore.subscribe((accumulatedTurns) => (accumliatedData = accumulatedTurns));
 
 	async function addTurn() {
@@ -47,7 +82,85 @@
 
 		turnsStore.set([...$turnsStore, turn]);
 	}
+
+	$: hasWrittenRecords = $cardsBoughtStore.find(
+		(cardName) => cardName === CivilizationAdvances.Written_Record
+	);
+	$: hasMonument = $cardsBoughtStore.find((cardName) => cardName === CivilizationAdvances.Monument);
 </script>
+
+{#if hasWrittenRecords}
+	<Spread class="py-2">
+		<p>
+			{CivilizationAdvances.Written_Record}
+		</p>
+		<Switch bind:checked={showWrittenRecordsInputs}></Switch>
+	</Spread>
+
+	{#if showWrittenRecordsInputs}
+		<p class="text-sm text-muted-foreground">
+			Acquire 10 additional points of credit tokens in any combination of colors (5 or 10)
+		</p>
+		<Spread>
+			<Stack>
+				<span class="text-green-500"> Green</span>
+				<Input bind:value={writtenRecordGreen} />
+			</Stack>
+			<Stack>
+				<span class="text-blue-500"> Blue</span>
+				<Input bind:value={writtenRecordBlue} />
+			</Stack>
+			<Stack>
+				<span class="text-orange-500"> Orange</span>
+				<Input bind:value={writtenRecordOrange} />
+			</Stack>
+			<Stack>
+				<span class="text-yellow-500"> Yellow</span>
+				<Input bind:value={writtenRecordYellow} />
+			</Stack>
+			<Stack>
+				<span class="text-red-500"> Red</span>
+				<Input bind:value={writtenRecordRed} />
+			</Stack>
+		</Spread>
+	{/if}
+{/if}
+
+{#if hasMonument}
+	<Spread class="py-2">
+		<p>
+			{CivilizationAdvances.Monument}
+		</p>
+		<Switch bind:checked={showMonumentInputs}></Switch>
+	</Spread>
+	{#if showMonumentInputs}
+		<p class="text-sm text-muted-foreground">
+			Acquire 20 additional points of credit tokens in any combination of colors (5,10,15 or 20)
+		</p>
+		<Spread>
+			<Stack>
+				<span class="text-green-500"> Green</span>
+				<Input bind:value={monumentGreen} />
+			</Stack>
+			<Stack>
+				<span class="text-blue-500"> Blue</span>
+				<Input bind:value={monumentBlue} />
+			</Stack>
+			<Stack>
+				<span class="text-orange-500"> Orange</span>
+				<Input bind:value={monumentOrange} />
+			</Stack>
+			<Stack>
+				<span class="text-yellow-500"> Yellow</span>
+				<Input bind:value={monumentYellow} />
+			</Stack>
+			<Stack>
+				<span class="text-red-500"> Red</span>
+				<Input bind:value={monumentRed} />
+			</Stack>
+		</Spread>
+	{/if}
+{/if}
 
 <h1>Turns:</h1>
 
