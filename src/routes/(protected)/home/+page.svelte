@@ -33,7 +33,7 @@
 
 	$: victoryPointsTotal = accumliatedData.cardsBought.reduce(
 		(acc, curr) => acc + curr.victoryPoints,
-		0
+		0 + accumliatedData.astAdvance * 5
 	);
 
 	$: hasDuplicates = new Set($cardsBoughtStore).size !== $cardsBoughtStore.length;
