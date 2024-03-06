@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"start": "vite dev",
-		"build": "vite build",
+		"build": "prisma generate && vite build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"docker": "docker compose up -d",
