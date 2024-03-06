@@ -13,6 +13,7 @@
 	export let data;
 	let { form, turn } = data;
 	let buyFor = 0;
+	let isSaving = false;
 
 	let selectedItemsNames: string[] = [];
 
@@ -66,7 +67,14 @@
 	}
 </script>
 
-<Form.Root method="POST" {form} schema={formSchema} let:config class="max-w-[600px]">
+<Form.Root
+	method="POST"
+	{form}
+	schema={formSchema}
+	let:config
+	class="max-w-[600px]"
+	on:submit={() => (isSaving = true)}
+>
 	<Form.Field name="cardsCost" {config}>
 		<Form.Input class="hidden" type="number" value={cardsCost} />
 	</Form.Field>
@@ -207,6 +215,6 @@
 		<a href="/home">
 			<Button>Back</Button>
 		</a>
-		<Form.Button class="my-4" type="submit">Save</Form.Button>
+		<Form.Button class="my-4" type="submit" disabled={isSaving}>Save</Form.Button>
 	</Spread>
 </Form.Root>

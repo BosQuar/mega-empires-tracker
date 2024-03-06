@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CivilizationAdvances, type CivilizationAdvance } from '$lib/civilizationAdvances/types';
+	import { type CivilizationAdvance } from '$lib/civilizationAdvances/types';
 	import {
 		civilizationAdvancesVP1,
 		civilizationAdvancesVP3,
@@ -14,6 +14,8 @@
 	import { turnAccumulatedStore, turnsStore } from '$lib/stores/turns-store';
 	import type { Turn } from '@prisma/client';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
+
+	let isAddningTurn = false;
 
 	let accumliatedData: {
 		cardsBought: CivilizationAdvance[];
@@ -40,6 +42,7 @@
 
 	async function addTurn() {
 		let turn: Turn;
+		isAddningTurn = true;
 
 		const response = await fetch('/api/turns', {
 			method: 'POST',
@@ -49,12 +52,8 @@
 		turn = await response.json();
 
 		turnsStore.set([...$turnsStore, turn]);
+		isAddningTurn = false;
 	}
-
-	$: hasWrittenRecords = $cardsBoughtStore.find(
-		(cardName) => cardName === CivilizationAdvances.Written_Record
-	);
-	$: hasMonument = $cardsBoughtStore.find((cardName) => cardName === CivilizationAdvances.Monument);
 </script>
 
 {#if hasDuplicates}
@@ -116,7 +115,7 @@
 
 <div class="flex justify-center pt-4">
 	{#if $turnsStore.length > 0}
-		<Button on:click={addTurn}>Add turn</Button>
+		<Button disabled={isAddningTurn} on:click={addTurn}>Add turn</Button>
 	{:else}
 		<p>Select menu and create new</p>
 	{/if}
