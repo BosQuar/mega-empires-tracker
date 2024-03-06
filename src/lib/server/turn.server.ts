@@ -41,6 +41,7 @@ export function getTurnsByUser(createdById: number) {
 export type CreateTurn = Omit<Turn, 'updatedAt' | 'createdAt' | 'id' | 'createdById' | 'cuid'>;
 export function createTurn(
 	{
+		gameId,
 		cardsBought,
 		cities,
 		people,
@@ -87,6 +88,11 @@ export function createTurn(
 			createdBy: {
 				connect: {
 					id: createdById
+				}
+			},
+			game: {
+				connect: {
+					id: gameId
 				}
 			}
 		}

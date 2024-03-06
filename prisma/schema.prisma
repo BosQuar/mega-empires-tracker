@@ -13,8 +13,10 @@ model User {
   updatedAt DateTime  @updatedAt
   cuid      String    @unique @default(cuid())
   id        Int       @id @unique @default(autoincrement())
+  role      String
   password  Password?
   turns     Turn[]
+  games     Game[]
 }
 
 model Password {
@@ -30,6 +32,8 @@ model Turn {
   createdBy   User?    @relation(fields: [createdById], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  gameId      Int
+  game        Game    @relation(fields: [gameId], references: [id])
   turnNumber  Int
   cardsBought String[]
   cardsCost   Int
@@ -51,4 +55,12 @@ model Turn {
   writtenRecordYellow Int
 }
 
+model Game {
+  id  Int @id @unique @default(autoincrement())
+  createdAt   DateTime @default(now())
+  createdById Int?
+  createdBy   User?    @relation(fields: [createdById], references: [id])
+  turns Turn[]
+  
+}
 

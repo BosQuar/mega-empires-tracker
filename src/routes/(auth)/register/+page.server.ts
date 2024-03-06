@@ -22,7 +22,7 @@ export const actions = {
 			});
 		}
 
-		const user = await createUser(form.data.username, form.data.password);
+		const user = await createUser(form.data.username, 'user', form.data.password);
 
 		const value = btoa(JSON.stringify(user));
 		event.cookies.set('user-jwt', value, {

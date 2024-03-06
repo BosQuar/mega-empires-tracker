@@ -21,6 +21,7 @@ export const POST: RequestHandler = async ({ locals }) => {
 
 const starterSetup: CreateTurn[] = [
 	{
+		gameId: 1,
 		turnNumber: 1,
 		cardsBought: [],
 		cities: 0,
@@ -42,6 +43,7 @@ const starterSetup: CreateTurn[] = [
 		calamities: []
 	},
 	{
+		gameId: 1,
 		turnNumber: 2,
 		cardsBought: [],
 		cities: 0,
@@ -63,6 +65,7 @@ const starterSetup: CreateTurn[] = [
 		writtenRecordYellow: 0
 	},
 	{
+		gameId: 1,
 		turnNumber: 3,
 		cardsBought: [],
 		cities: 0,
@@ -84,6 +87,7 @@ const starterSetup: CreateTurn[] = [
 		writtenRecordYellow: 0
 	},
 	{
+		gameId: 1,
 		turnNumber: 4,
 		cardsBought: [],
 		cities: 1,

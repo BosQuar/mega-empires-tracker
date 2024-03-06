@@ -18,6 +18,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	const numberOfTurns: string = await request.json();
 
 	const newTurn: CreateTurn = {
+		gameId: 1,
 		turnNumber: parseInt(numberOfTurns, 10) + 1,
 		cardsBought: [],
 		cities: 0,

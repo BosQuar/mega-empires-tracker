@@ -31,6 +31,7 @@ export const actions = {
 		}
 
 		const turn: UpdateTurn = {
+			gameId: 1,
 			id: parseInt(event.params.turnId, 10),
 			astAdvance: parseInt(form.data.astAdvance, 10),
 			people: parseInt(form.data.people, 10),
