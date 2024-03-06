@@ -2,8 +2,7 @@
 	import { goto, invalidateAll } from '$app/navigation';
 
 	import * as Dialog from '$lib/components/ui/dialog';
-
-	import { discountTotalStore, extraBonusStore } from '$lib/stores/discount-store';
+	import { discountTotalStore } from '$lib/stores/discount-store';
 	import type { Turn } from '@prisma/client';
 	import { turnsStore } from '../../stores/turns-store';
 	import ModeToggle from '../header/mode-toggle.svelte';
@@ -43,17 +42,11 @@
 >
 	<div class="container flex h-14 max-w-screen-2xl items-center px-2">
 		<Spread class="text-sm pr-2">
-			<span class="text-green-500"
-				>G: {$discountTotalStore.green + $extraBonusStore.green ?? 0}</span
-			>
-			<span class="text-blue-500">B: {$discountTotalStore.blue + $extraBonusStore.blue ?? 0}</span>
-			<span class="text-orange-500"
-				>O: {$discountTotalStore.orange + $extraBonusStore.orange ?? 0}</span
-			>
-			<span class="text-yellow-500"
-				>Y: {$discountTotalStore.yellow + $extraBonusStore.yellow ?? 0}</span
-			>
-			<span class="text-red-500">R: {$discountTotalStore.red + $extraBonusStore.red ?? 0}</span>
+			<span class="text-green-500">G: {$discountTotalStore.green ?? 0}</span>
+			<span class="text-blue-500">B: {$discountTotalStore.blue ?? 0}</span>
+			<span class="text-orange-500">O: {$discountTotalStore.orange ?? 0}</span>
+			<span class="text-yellow-500">Y: {$discountTotalStore.yellow ?? 0}</span>
+			<span class="text-red-500">R: {$discountTotalStore.red ?? 0}</span>
 		</Spread>
 		<div class="flex flex-1 items-center gap-x-2 justify-end">
 			<ModeToggle />

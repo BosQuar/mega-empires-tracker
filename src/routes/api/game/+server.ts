@@ -29,6 +29,16 @@ const starterSetup: CreateTurn[] = [
 		cardsCost: 0,
 		cardsDiscount: 0,
 		isDone: true,
+		monumentRed: 0,
+		monumentGreen: 0,
+		monumentBlue: 0,
+		monumentOrange: 0,
+		monumentYellow: 0,
+		writtenRecordRed: 0,
+		writtenRecordGreen: 0,
+		writtenRecordBlue: 0,
+		writtenRecordOrange: 0,
+		writtenRecordYellow: 0,
 		calamities: []
 	},
 	{
@@ -40,7 +50,17 @@ const starterSetup: CreateTurn[] = [
 		cardsCost: 0,
 		cardsDiscount: 0,
 		isDone: true,
-		calamities: []
+		calamities: [],
+		monumentRed: 0,
+		monumentGreen: 0,
+		monumentBlue: 0,
+		monumentOrange: 0,
+		monumentYellow: 0,
+		writtenRecordRed: 0,
+		writtenRecordGreen: 0,
+		writtenRecordBlue: 0,
+		writtenRecordOrange: 0,
+		writtenRecordYellow: 0
 	},
 	{
 		turnNumber: 3,
@@ -51,7 +71,17 @@ const starterSetup: CreateTurn[] = [
 		cardsCost: 0,
 		cardsDiscount: 0,
 		isDone: true,
-		calamities: []
+		calamities: [],
+		monumentRed: 0,
+		monumentGreen: 0,
+		monumentBlue: 0,
+		monumentOrange: 0,
+		monumentYellow: 0,
+		writtenRecordRed: 0,
+		writtenRecordGreen: 0,
+		writtenRecordBlue: 0,
+		writtenRecordOrange: 0,
+		writtenRecordYellow: 0
 	},
 	{
 		turnNumber: 4,
@@ -62,6 +92,16 @@ const starterSetup: CreateTurn[] = [
 		cardsCost: 0,
 		cardsDiscount: 0,
 		isDone: false,
-		calamities: []
+		calamities: [],
+		monumentRed: 0,
+		monumentGreen: 0,
+		monumentBlue: 0,
+		monumentOrange: 0,
+		monumentYellow: 0,
+		writtenRecordRed: 0,
+		writtenRecordGreen: 0,
+		writtenRecordBlue: 0,
+		writtenRecordOrange: 0,
+		writtenRecordYellow: 0
 	}
 ];

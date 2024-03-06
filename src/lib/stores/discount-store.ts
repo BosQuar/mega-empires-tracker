@@ -1,5 +1,5 @@
 import { civilizationAdvances } from '$lib/civilizationAdvances/values';
-import { derived, writable } from 'svelte/store';
+import { derived } from 'svelte/store';
 import { turnsStore } from './turns-store';
 
 export const discountByTurnStore = derived(turnsStore, (turns) =>
@@ -18,7 +18,17 @@ export const discountByTurnStore = derived(turnsStore, (turns) =>
 							orange: cardsBought.discountOrange,
 							yellow: cardsBought.discountYellow
 						};
-					})
+					}),
+				monumentRed: turn.monumentRed,
+				monumentGreen: turn.monumentGreen,
+				monumentBlue: turn.monumentBlue,
+				monumentOrange: turn.monumentOrange,
+				monumentYellow: turn.monumentYellow,
+				writtenRecordRed: turn.writtenRecordRed,
+				writtenRecordGreen: turn.writtenRecordGreen,
+				writtenRecordBlue: turn.writtenRecordBlue,
+				writtenRecordOrange: turn.writtenRecordOrange,
+				writtenRecordYellow: turn.writtenRecordYellow
 			};
 		})
 		.map((turn) => {
@@ -36,11 +46,11 @@ export const discountByTurnStore = derived(turnsStore, (turns) =>
 						};
 					},
 					{
-						red: 0,
-						green: 0,
-						blue: 0,
-						orange: 0,
-						yellow: 0
+						red: 0 + turn.monumentRed + turn.writtenRecordRed,
+						green: 0 + turn.monumentGreen + turn.writtenRecordGreen,
+						blue: 0 + turn.monumentBlue + turn.writtenRecordBlue,
+						orange: 0 + turn.monumentOrange + turn.writtenRecordOrange,
+						yellow: 0 + turn.monumentYellow + turn.writtenRecordYellow
 					}
 				)
 			};
@@ -70,19 +80,3 @@ export const discountTotalStore = derived(discountByTurnStore, (discountByTurn) 
 			}
 		)
 );
-
-type Bonus = {
-	red: number;
-	green: number;
-	blue: number;
-	orange: number;
-	yellow: number;
-};
-
-export const extraBonusStore = writable<Bonus>({
-	red: 0,
-	green: 0,
-	blue: 0,
-	orange: 0,
-	yellow: 0
-});

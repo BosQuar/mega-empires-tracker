@@ -18,7 +18,17 @@ export function getTurnById(id: number) {
 			astAdvance: true,
 			isDone: true,
 			calamities: true,
-			turnNumber: true
+			turnNumber: true,
+			monumentRed: true,
+			monumentGreen: true,
+			monumentBlue: true,
+			monumentOrange: true,
+			monumentYellow: true,
+			writtenRecordRed: true,
+			writtenRecordGreen: true,
+			writtenRecordBlue: true,
+			writtenRecordOrange: true,
+			writtenRecordYellow: true
 		},
 		where: { id }
 	});
@@ -39,7 +49,17 @@ export function createTurn(
 		calamities,
 		turnNumber,
 		cardsCost,
-		cardsDiscount
+		cardsDiscount,
+		monumentRed,
+		monumentGreen,
+		monumentBlue,
+		monumentOrange,
+		monumentYellow,
+		writtenRecordRed,
+		writtenRecordGreen,
+		writtenRecordBlue,
+		writtenRecordOrange,
+		writtenRecordYellow
 	}: CreateTurn,
 	createdById: number
 ) {
@@ -54,6 +74,16 @@ export function createTurn(
 			astAdvance,
 			isDone,
 			calamities,
+			monumentRed,
+			monumentGreen,
+			monumentBlue,
+			monumentOrange,
+			monumentYellow,
+			writtenRecordRed,
+			writtenRecordGreen,
+			writtenRecordBlue,
+			writtenRecordOrange,
+			writtenRecordYellow,
 			createdBy: {
 				connect: {
 					id: createdById
@@ -77,7 +107,17 @@ export function updateTurn(
 		isDone,
 		calamities,
 		cardsCost,
-		cardsDiscount
+		cardsDiscount,
+		monumentRed,
+		monumentGreen,
+		monumentBlue,
+		monumentOrange,
+		monumentYellow,
+		writtenRecordRed,
+		writtenRecordGreen,
+		writtenRecordBlue,
+		writtenRecordOrange,
+		writtenRecordYellow
 	}: UpdateTurn,
 	createdById: number
 ) {
@@ -94,7 +134,17 @@ export function updateTurn(
 			isDone,
 			calamities,
 			cardsCost,
-			cardsDiscount
+			cardsDiscount,
+			monumentRed,
+			monumentGreen,
+			monumentBlue,
+			monumentOrange,
+			monumentYellow,
+			writtenRecordRed,
+			writtenRecordGreen,
+			writtenRecordBlue,
+			writtenRecordOrange,
+			writtenRecordYellow
 		}
 	});
 }

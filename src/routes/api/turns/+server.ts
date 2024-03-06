@@ -26,7 +26,17 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		cardsCost: 0,
 		cardsDiscount: 0,
 		isDone: false,
-		calamities: []
+		calamities: [],
+		monumentRed: 0,
+		monumentGreen: 0,
+		monumentBlue: 0,
+		monumentOrange: 0,
+		monumentYellow: 0,
+		writtenRecordRed: 0,
+		writtenRecordGreen: 0,
+		writtenRecordBlue: 0,
+		writtenRecordOrange: 0,
+		writtenRecordYellow: 0
 	};
 
 	const turns = await createTurn(newTurn, locals.user.id);

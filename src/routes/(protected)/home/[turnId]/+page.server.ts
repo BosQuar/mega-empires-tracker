@@ -39,7 +39,17 @@ export const actions = {
 			cardsCost: parseInt(form.data.cardsCost, 10),
 			cardsDiscount: parseInt(form.data.cardsDiscount, 10),
 			cardsBought: form.data.civilizationAdvances.split(',').filter((c) => c !== ''),
-			calamities: []
+			calamities: [],
+			monumentRed: parseStringNumber(form.data.monumentRed),
+			monumentGreen: parseStringNumber(form.data.monumentGreen),
+			monumentBlue: parseStringNumber(form.data.monumentBlue),
+			monumentOrange: parseStringNumber(form.data.monumentOrange),
+			monumentYellow: parseStringNumber(form.data.monumentYellow),
+			writtenRecordRed: parseStringNumber(form.data.writtenRecordRed),
+			writtenRecordGreen: parseStringNumber(form.data.writtenRecordGreen),
+			writtenRecordBlue: parseStringNumber(form.data.writtenRecordBlue),
+			writtenRecordOrange: parseStringNumber(form.data.writtenRecordOrange),
+			writtenRecordYellow: parseStringNumber(form.data.writtenRecordYellow)
 		};
 
 		try {
@@ -51,3 +61,7 @@ export const actions = {
 		redirect(307, '/home');
 	}
 };
+
+function parseStringNumber(stringNumber: string) {
+	return parseInt(stringNumber, 10) ? parseInt(stringNumber, 10) : 0;
+}

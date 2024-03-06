@@ -37,8 +37,18 @@ model Turn {
   cities      Int
   people      Int
   astAdvance  Int
-  isDone  Boolean
+  isDone      Boolean
   calamities  String[]
+  monumentRed Int
+  monumentGreen Int
+  monumentBlue Int
+  monumentOrange Int
+  monumentYellow Int
+  writtenRecordRed Int
+  writtenRecordGreen Int
+  writtenRecordBlue Int
+  writtenRecordOrange Int
+  writtenRecordYellow Int
 }
 
 
