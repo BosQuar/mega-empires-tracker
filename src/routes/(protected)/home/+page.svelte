@@ -243,6 +243,9 @@
 			<p>Cards cost:</p>
 			<li>
 				{accumliatedData.cardsCost}
+				<span class="text-red-500">
+					({accumliatedData.cardsCost - accumliatedData.cardsDiscount})</span
+				>
 			</li>
 			<p>Total discount:</p>
 			<li>
