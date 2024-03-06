@@ -1,5 +1,10 @@
 <script lang="ts">
 	import type { CivilizationAdvance } from '$lib/civilizationAdvances/types';
+	import {
+		civilizationAdvancesVP1,
+		civilizationAdvancesVP3,
+		civilizationAdvancesVP6
+	} from '$lib/civilizationAdvances/values';
 	import { Inline } from '$lib/components/layout/inline';
 	import { Spread } from '$lib/components/layout/spread';
 	import * as Accordion from '$lib/components/ui/accordion';
@@ -9,7 +14,7 @@
 	import type { Turn } from '@prisma/client';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
 
-	let accumulatedData: {
+	let accumliatedData: {
 		cardsBought: CivilizationAdvance[];
 		cardsCost: number;
 		cardsDiscount: number;
@@ -23,7 +28,12 @@
 		calamities: []
 	};
 
-	turnAccumulatedStore.subscribe((accumulatedTurns) => (accumulatedData = accumulatedTurns));
+	$: victoryPointsTotal = accumliatedData.cardsBought.reduce(
+		(acc, curr) => acc + curr.victoryPoints,
+		0
+	);
+
+	turnAccumulatedStore.subscribe((accumulatedTurns) => (accumliatedData = accumulatedTurns));
 
 	async function addTurn() {
 		let turn: Turn;
@@ -41,7 +51,7 @@
 
 <h1>Turns:</h1>
 
-<Accordion.Root class="w-full sm:max-w-[70%] py">
+<Accordion.Root class="w-flil sm:max-w-[70%] py">
 	{#each $turnsStore.sort((firstItem, secondItem) => firstItem.turnNumber - secondItem.turnNumber) as turn}
 		<Accordion.Item value={turn.turnNumber.toString()}>
 			<Accordion.Trigger class="hover:no-underline">
@@ -104,23 +114,56 @@
 			<Button>Stats</Button>
 		</Sheet.Trigger>
 
-		<Sheet.Content>
+		<Sheet.Content class="overflow-y-scroll">
 			<Sheet.Header>
 				<Sheet.Title>Stats</Sheet.Title>
-				<Sheet.Description>Accumulated stats for all played turns.</Sheet.Description>
+				<Sheet.Description>Accumliated stats for all played turns.</Sheet.Description>
 			</Sheet.Header>
-			<p>Victory Points</p>
-			sum different cards
-			<p>Ast advance</p>
-			{accumulatedData.astAdvance}
-			<p>Cards cost</p>
-			{accumulatedData.cardsCost}
-			<p>Accumulated discount</p>
-			{accumulatedData.cardsDiscount}
-			<p>Cards</p>
-			{#each accumulatedData.cardsBought as card}
-				<li>{card.name}</li>
-			{/each}
+			<p>Victory Points:</p>
+			<li>
+				{victoryPointsTotal}
+			</li>
+			<p>Ast advance:</p>
+			<li>
+				{accumliatedData.astAdvance}
+			</li>
+			<p>Cards cost:</p>
+			<li>
+				{accumliatedData.cardsCost}
+			</li>
+			<p>Total discount:</p>
+			<li>
+				{accumliatedData.cardsDiscount}
+			</li>
+			<p>Cards:</p>
+
+			{@const vp1Cards = accumliatedData.cardsBought
+				.filter((card) => civilizationAdvancesVP1.includes(card))
+				.sort((a, b) => a.name.localeCompare(b.name))}
+			{@const vp3Cards = accumliatedData.cardsBought
+				.filter((card) => civilizationAdvancesVP3.includes(card))
+				.sort((a, b) => a.name.localeCompare(b.name))}
+			{@const vp6Cards = accumliatedData.cardsBought
+				.filter((card) => civilizationAdvancesVP6.includes(card))
+				.sort((a, b) => a.name.localeCompare(b.name))}
+			{#if vp1Cards.length}
+				<p>VP 1</p>
+				{#each vp1Cards as card}
+					<li>{card.name}</li>
+				{/each}
+			{/if}
+			{#if vp3Cards.length}
+				<p>VP 3</p>
+				{#each vp3Cards as card}
+					<li>{card.name}</li>
+				{/each}
+			{/if}
+			{#if vp6Cards.length}
+				<p>VP 6</p>
+				{#each vp6Cards as card}
+					<li>{card.name}</li>
+				{/each}
+			{/if}
 		</Sheet.Content>
 	</Sheet.Root>
 </div>

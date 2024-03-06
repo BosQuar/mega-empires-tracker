@@ -1,7 +1,11 @@
 <script lang="ts">
 	import type { CivilizationAdvance } from '$lib/civilizationAdvances/types';
+	import {
+		civilizationAdvancesVP1,
+		civilizationAdvancesVP3,
+		civilizationAdvancesVP6
+	} from '$lib/civilizationAdvances/values';
 	import Inline from '$lib/components/layout/inline/inline.svelte';
-	import { Spread } from '$lib/components/layout/spread';
 	import { Stack } from '$lib/components/layout/stack';
 	import { discountByTurnStore } from '$lib/stores/discount-store';
 	import { turnsStore } from '$lib/stores/turns-store';
@@ -10,6 +14,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import { Badge } from '../badge';
 	import * as Command from '../command';
+	import ListItem from './list-item.svelte';
 
 	export let placeholder = 'Type to search...';
 	export let disabled = false;
@@ -198,53 +203,54 @@
 					class="rounded-md border bg-popover absolute right-0 left-0 top-11 overflow-auto z-10
 					"
 				>
-					{#each items
-						.filter((item) => !$turnsStore
-									.filter((turn) => turn.turnNumber < turnNumber)
-									.map((turn) => turn.cardsBought)
-									.flat(1)
-									.includes(item.name))
-						.sort((a, b) => a.name.localeCompare(b.name)) as item}
-						{@const discountedCost = getDiscountedCost(item, turnNumber)}
+					{@const cardsInventory = items.filter(
+						(item) =>
+							!$turnsStore
+								.filter((turn) => turn.turnNumber < turnNumber)
+								.map((turn) => turn.cardsBought)
+								.flat(1)
+								.includes(item.name)
+					)}
+					{@const vp1Cards = cardsInventory
+						.filter((card) => civilizationAdvancesVP1.includes(card))
+						.sort((a, b) => a.name.localeCompare(b.name))}
+					{@const vp3Cards = cardsInventory
+						.filter((card) => civilizationAdvancesVP3.includes(card))
+						.sort((a, b) => a.name.localeCompare(b.name))}
+					{@const vp6Cards = cardsInventory
+						.filter((card) => civilizationAdvancesVP6.includes(card))
+						.sort((a, b) => a.name.localeCompare(b.name))}
 
-						<Command.Item onSelect={() => addItem(item)}>
-							<Spread>
-								<span class="min-w-[100px]"
-									><span>
-										{#if item.color.green}
-											<span class="text-green-500">G</span>
-										{/if}
-										{#if item.color.blue}
-											<span class="text-blue-500">B</span>
-										{/if}
-										{#if item.color.orange}
-											<span class="text-orange-500">O</span>
-										{/if}
-										{#if item.color.yellow}
-											<span class="text-yellow-500">Y</span>
-										{/if}
-										{#if item.color.red}
-											<span class="text-red-500">R</span>
-										{/if}
-									</span>{item.name}</span
-								>
+					{#if vp1Cards.length}
+						<p>VP 1</p>
+						{#each vp1Cards as item}
+							{@const discountedCost = getDiscountedCost(item, turnNumber)}
 
-								{#if discountedCost === item.cost}
-									<span>{item.cost}</span>
-								{:else}
-									<span>
-										<span class="text-red-500">{`${discountedCost} `}</span>
-										<span>{`(${item.cost})`}</span>
-									</span>
-								{/if}
-								<span class="text-green-500"> {item.discountGreen}</span>
-								<span class="text-blue-500"> {item.discountBlue}</span>
-								<span class="text-orange-500"> {item.discountOrange}</span>
-								<span class="text-yellow-500"> {item.discountYellow}</span>
-								<span class="text-red-500"> {item.discountRed}</span>
-							</Spread>
-						</Command.Item>
-					{/each}
+							<Command.Item onSelect={() => addItem(item)}>
+								<ListItem {item} {discountedCost} />
+							</Command.Item>
+						{/each}
+					{/if}
+					{#if vp3Cards.length}
+						<p>VP 3</p>
+						{#each vp3Cards as item}
+							{@const discountedCost = getDiscountedCost(item, turnNumber)}
+
+							<Command.Item onSelect={() => addItem(item)}>
+								<ListItem {item} {discountedCost} />
+							</Command.Item>
+						{/each}
+					{/if}
+					{#if vp6Cards.length}
+						<p>VP 6</p>
+						{#each vp6Cards as item}
+							{@const discountedCost = getDiscountedCost(item, turnNumber)}
+
+							<Command.Item onSelect={() => addItem(item)}>
+								<ListItem {item} {discountedCost} />
+							</Command.Item>
+						{/each}
+					{/if}
 				</Command.List>
 				<Command.Empty>No results found.</Command.Empty>
 			{/if}

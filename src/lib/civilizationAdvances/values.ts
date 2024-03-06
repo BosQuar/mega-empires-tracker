@@ -1,6 +1,6 @@
 import { CivilizationAdvances, type CivilizationAdvance } from './types';
 
-const civilizationAdvancesVP1: CivilizationAdvance[] = [
+export const civilizationAdvancesVP1: CivilizationAdvance[] = [
 	{
 		name: CivilizationAdvances.Cloth_Making,
 		color: { orange: true },
@@ -28,7 +28,7 @@ const civilizationAdvancesVP1: CivilizationAdvance[] = [
 		victoryPoints: 1
 	}
 ];
-const civilizationAdvancesVP3: CivilizationAdvance[] = [
+export const civilizationAdvancesVP3: CivilizationAdvance[] = [
 	{
 		name: CivilizationAdvances.Naval_Warfare,
 		color: { orange: true },
@@ -43,7 +43,21 @@ const civilizationAdvancesVP3: CivilizationAdvance[] = [
 		victoryPoints: 3
 	}
 ];
-const civilizationAdvancesVP6: CivilizationAdvance[] = [];
+export const civilizationAdvancesVP6: CivilizationAdvance[] = [
+	{
+		name: CivilizationAdvances.Monotheism,
+		color: { yellow: true },
+		cost: 230,
+		discountRed: 5,
+		discountGreen: 0,
+		discountBlue: 0,
+		discountOrange: 0,
+		discountYellow: 20,
+		discountedByAdvance: null,
+		discountedByAdvanceNumber: 20,
+		victoryPoints: 6
+	}
+];
 
 export const civilizationAdvances: CivilizationAdvance[] = [
 	...civilizationAdvancesVP1,
