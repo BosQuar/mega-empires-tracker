@@ -1,5 +1,6 @@
 export type CivilizationAdvance = {
 	name: string;
+	description: string;
 	color: {
 		red?: boolean;
 		green?: boolean;
