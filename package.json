@@ -1,5 +1,5 @@
 {
-	"name": "sveltekit-starterkit",
+	"name": "mega-empires-tracker",
 	"type": "module",
 	"version": "0.0.1",
 	"private": true,
@@ -15,7 +15,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"preview": "vite preview",
-		"setup-dev": "prisma generate && prisma migrate dev && prisma db seed",
+		"setup-dev": "prisma generate && prisma db push && prisma db seed",
 		"test:unit": "vitest"
 	},
 	"dependencies": {
