@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import invariant from 'tiny-invariant';
 
 let prisma: PrismaClient;
 
@@ -22,9 +21,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 function getClient() {
-	const { DATABASE_URL } = process.env;
-
-	invariant(typeof DATABASE_URL === 'string', 'DATABASE_URL env var not set');
+	const DATABASE_URL =
+		process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5434/postgres';
 
 	const databaseUrl = new URL(DATABASE_URL);
 
