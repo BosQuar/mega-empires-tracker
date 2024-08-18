@@ -1,4 +1,4 @@
-FROM node:20.12.0-alpine AS builder
+FROM --platform=linux/x86_64/v8 node:20.12.0-alpine AS builder
 WORKDIR /usr/src/app
 
 ARG TZ=Europe/Stockholm
