@@ -12,10 +12,10 @@ declare global {
 // create a new connection to the DB with every change either.
 // in production we'll have a single connection to the DB.
 if (process.env.NODE_ENV === 'production') {
-	prisma = getClient();
+	// prisma = getClient();
 } else {
 	if (!global.__db__) {
-		// global.__db__ = getClient();
+		global.__db__ = getClient();
 	}
 	prisma = global.__db__;
 }
