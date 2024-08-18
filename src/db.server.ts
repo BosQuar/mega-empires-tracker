@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production') {
 	prisma = getClient();
 } else {
 	if (!global.__db__) {
-		global.__db__ = getClient();
+		// global.__db__ = getClient();
 	}
 	prisma = global.__db__;
 }
