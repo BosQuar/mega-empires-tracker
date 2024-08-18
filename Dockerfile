@@ -1,23 +1,28 @@
-# Use an official Node runtime as the base image
-FROM node:14
+FROM node:20.12.0-alpine AS builder
+WORKDIR /usr/src/app
 
-# Set the working directory in the container to /app
-WORKDIR /app
+ARG TZ=Europe/Stockholm
+ARG PUBLIC_HELLO
 
-# Copy package.json and package-lock.json into the directory
-COPY package*.json ./
-
-# Install any needed packages specified in package.json
+COPY . /usr/src/app
+RUN apk --no-cache add curl tzdata
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN npm install
-
-# Copy the rest of the working environment into the container
-COPY . .
-
-# Generate Prisma client
 RUN npx prisma generate
-
-# Build the SvelteKit application
 RUN npm run build
+
+FROM node:19.7-alpine
+WORKDIR /usr/src/app
+
+ARG TZ=Europe/Stockholm
+RUN apk --no-cache add curl tzdata
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
+COPY --from=builder /usr/src/app/package-lock.json /usr/src/app/package-lock.json
+RUN npm i --only=production
+
+COPY --from=builder /usr/src/app/build /usr/src/app/build
 
 EXPOSE 3000
 CMD ["node", "build/index.js"]
