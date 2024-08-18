@@ -53,3 +53,4 @@ jobs:
           server: https://bergart.se
           app: 'mega-empires-tracker'
           token: '${{ secrets.APP_TOKEN }}'
+          image: 'ghcr.io/bosquar/mega-empires-tracker:master'
