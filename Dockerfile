@@ -22,6 +22,7 @@ RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY --from=builder /usr/src/app/package.json /usr/src/app/package.json
 COPY --from=builder /usr/src/app/package-lock.json /usr/src/app/package-lock.json
 RUN npm i --only=production
+RUN npx prisma generate
 
 COPY --from=builder /usr/src/app/build /usr/src/app/build
 
