@@ -41,8 +41,7 @@ jobs:
       - name: Build and Push Docker Image
         uses: docker/build-push-action@v3
         with:
-          context: .
-          file: ./dockerfiles/client/dockerfile
+          context: ./dockerfiles/client
           platforms: linux/arm64 #linux/amd64 OR linux/arm64
           push: true
           tags: ${{ steps.meta.outputs.tags }}
