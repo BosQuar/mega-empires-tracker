@@ -51,6 +51,6 @@ jobs:
         uses: caprover/deploy-from-github@v1.1.2
         with:
           server: https://bergart.se
-          app: 'empires-prisma'
+          app: 'empires-prismaa'
           token: '${{ secrets.APP_TOKEN_PRISMA }}'
           image: 'ghcr.io/bosquar/mega-empires-tracker-prisma:master'
