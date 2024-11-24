@@ -53,4 +53,4 @@ jobs:
           server: https://bergart.se
           app: 'mega-empires-prisma'
           token: '${{ secrets.APP_TOKEN_PRISMA }}'
-          image: 'ghcr.io/bosquar/mega-empires-prisma:master'
+          image: 'ghcr.io/bosquar/mega-empires-tracker-prisma:master'
