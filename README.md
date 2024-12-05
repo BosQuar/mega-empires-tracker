@@ -1,6 +1,6 @@
 # Mega empire tracker
 
-A mega/wester/eastern empire tracker. Currently a work in progress, but goal is to have a tracker that speeds up the process when i.e. buying civilization advances and view turn history for fun.
+A mega/wester/eastern empire tracker. Currently a work in progress, but goal is to have a tracker that speeds up the process when i.e. buying civilization advances and view turn history for fun!
 
 Repo is powered by:
 
