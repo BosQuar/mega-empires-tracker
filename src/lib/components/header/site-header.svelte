@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { discountTotalStore } from '$lib/stores/discount-store';
-	import type { Turn } from '@prisma/client';
 	import { turnsStore } from '../../stores/turns-store';
 	import ModeToggle from '../header/mode-toggle.svelte';
 	import { Spread } from '../layout/spread';
@@ -11,29 +10,79 @@
 	import { Button } from '../ui/button';
 	import * as DropdownMenu from '../ui/dropdown-menu';
 
-	export let name: string;
-
 	$: isDialogOpen = false;
-	$: isCreatingNew = false;
 
-	async function createNew() {
-		isCreatingNew = true;
-		let turns: Turn[] = [];
+	async function createNewGame() {
+		const turns = [
+			{
+				turnNumber: 1,
+				cardsBought: [],
+				cardsCost: 0,
+				cardsDiscount: 0,
+				cities: 0,
+				people: 2,
+				astAdvance: 1,
+				isDone: true,
+				calamities: [],
+				monumentRed: 0,
+				monumentGreen: 0,
+				monumentBlue: 0,
+				monumentOrange: 0,
+				monumentYellow: 0,
+				writtenRecordRed: 0,
+				writtenRecordGreen: 0,
+				writtenRecordBlue: 0,
+				writtenRecordOrange: 0,
+				writtenRecordYellow: 0
+			},
+			{
+				turnNumber: 2,
+				cardsBought: [],
+				cardsCost: 0,
+				cardsDiscount: 0,
+				cities: 0,
+				people: 4,
+				astAdvance: 1,
+				isDone: true,
+				calamities: [],
+				monumentRed: 0,
+				monumentGreen: 0,
+				monumentBlue: 0,
+				monumentOrange: 0,
+				monumentYellow: 0,
+				writtenRecordRed: 0,
+				writtenRecordGreen: 0,
+				writtenRecordBlue: 0,
+				writtenRecordOrange: 0,
+				writtenRecordYellow: 0
+			},
+			{
+				turnNumber: 3,
+				cardsBought: [],
+				cardsCost: 0,
+				cardsDiscount: 0,
+				cities: 0,
+				people: 8,
+				astAdvance: 1,
+				isDone: true,
+				calamities: [],
+				monumentRed: 0,
+				monumentGreen: 0,
+				monumentBlue: 0,
+				monumentOrange: 0,
+				monumentYellow: 0,
+				writtenRecordRed: 0,
+				writtenRecordGreen: 0,
+				writtenRecordBlue: 0,
+				writtenRecordOrange: 0,
+				writtenRecordYellow: 0
+			}
+		];
 
-		try {
-			const response = await fetch('/api/game', {
-				method: 'POST'
-			});
+		localStorage.setItem('empires_turns', JSON.stringify(turns));
 
-			turns = await response.json();
-		} catch (error) {
-			console.log(error);
-		}
-
-		isCreatingNew = false;
+		turnsStore.set(turns);
 		isDialogOpen = false;
-
-		invalidateAll();
 	}
 </script>
 
@@ -60,13 +109,13 @@
 				<DropdownMenu.Content class="w-56" align="end">
 					<DropdownMenu.Label class="font-normal">
 						<div class="flex flex-col space-y-1">
-							<p class="text-sm font-medium leading-none">{name}</p>
+							<p class="text-sm font-medium leading-none">Wazzup Caesar!</p>
 						</div>
 					</DropdownMenu.Label>
 					<DropdownMenu.Separator />
 					<DropdownMenu.Group>
 						<DropdownMenu.Item
-							on:click={() => ($turnsStore.length > 0 ? (isDialogOpen = true) : createNew())}
+							on:click={() => ($turnsStore.length > 0 ? (isDialogOpen = true) : createNewGame())}
 							>Create new</DropdownMenu.Item
 						>
 					</DropdownMenu.Group>
@@ -88,9 +137,7 @@
 		</Dialog.Header>
 
 		<Dialog.Footer class="justify-between">
-			<Button variant="destructive" on:click={() => createNew()} disabled={isCreatingNew}
-				>Create new</Button
-			>
+			<Button variant="destructive" on:click={() => createNewGame()}>Create new</Button>
 		</Dialog.Footer>
 	</Dialog.Content>
 </Dialog.Root>

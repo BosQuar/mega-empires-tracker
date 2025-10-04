@@ -8,16 +8,51 @@
 	import * as Form from '$lib/components/ui/form';
 	import { Input } from '$lib/components/ui/input/index.js';
 	import { Label } from '$lib/components/ui/label/index.js';
+	import { turnsStore } from '$lib/stores/turns-store.js';
+	import { superForm } from 'sveltekit-superforms/client';
 	import { formSchema } from './schema.js';
 
 	export let data;
-	let { form, turn } = data;
-	let buyFor = 0;
-	let isSaving = false;
 
-	let selectedItemsNames: string[] = [];
+	let turn = $turnsStore.find((turn) => turn.turnNumber === data.turnNumber);
 
-	form.data.astAdvance = turn.astAdvance.toString();
+	if (turn === undefined) {
+		throw new Error('Turn not found');
+	}
+
+	const { form, errors, message, constraints, enhance } = superForm(data.form, {
+		SPA: true,
+		validators: formSchema,
+		onUpdate({ form }) {
+			// Form validation
+			if (form.valid) {
+				// TODO: Do something with the validated form.data
+				console.log('Form is valid', form.data);
+			}
+		}
+	});
+
+	form.set({
+		people: turn.people.toString(),
+		cities: turn.cities.toString(),
+		astAdvance: turn.astAdvance.toString(),
+		cardsDiscount: turn.cardsDiscount.toString(),
+		cardsCost: turn.cardsCost.toString(),
+		monumentRed: turn.monumentRed.toString(),
+		monumentGreen: turn.monumentGreen.toString(),
+		monumentBlue: turn.monumentBlue.toString(),
+		monumentOrange: turn.monumentOrange.toString(),
+		monumentYellow: turn.monumentYellow.toString(),
+		writtenRecordRed: turn.writtenRecordRed.toString(),
+		writtenRecordGreen: turn.writtenRecordGreen.toString(),
+		writtenRecordBlue: turn.writtenRecordBlue.toString(),
+		writtenRecordOrange: turn.writtenRecordOrange.toString(),
+		writtenRecordYellow: turn.writtenRecordYellow.toString(),
+		isDone: turn.isDone,
+		civilizationAdvances: turn.cardsBought.toString()
+	});
+
+	/* 	form.data.astAdvance = turn.astAdvance.toString();
 	form.data.people = turn.people.toString();
 	form.data.cities = turn.cities.toString();
 	form.data.cardsDiscount = turn.cardsDiscount.toString();
@@ -32,9 +67,12 @@
 	form.data.writtenRecordBlue = turn.writtenRecordBlue.toString();
 	form.data.writtenRecordOrange = turn.writtenRecordOrange.toString();
 	form.data.writtenRecordYellow = turn.writtenRecordYellow.toString();
-
 	form.data.isDone = turn.isDone;
-	form.data.civilizationAdvances = turn.cardsBought.toString();
+	form.data.civilizationAdvances = turn.cardsBought.toString(); */
+
+	let buyFor = 0;
+
+	let selectedItemsNames: string[] = [];
 
 	let cardsDiscount: number = turn.cardsDiscount;
 	let cardsCost: number = turn.cardsCost;
@@ -54,7 +92,11 @@
 	}
 
 	function setFormValues() {
-		form.data.monumentRed = turn.monumentRed.toString();
+		if (turn === undefined) {
+			throw new Error('Turn not found');
+		}
+
+		/* form.data.monumentRed = turn.monumentRed.toString();
 		form.data.monumentGreen = turn.monumentGreen.toString();
 		form.data.monumentBlue = turn.monumentBlue.toString();
 		form.data.monumentOrange = turn.monumentOrange.toString();
@@ -63,17 +105,20 @@
 		form.data.writtenRecordGreen = turn.writtenRecordGreen.toString();
 		form.data.writtenRecordBlue = turn.writtenRecordBlue.toString();
 		form.data.writtenRecordOrange = turn.writtenRecordOrange.toString();
-		form.data.writtenRecordYellow = turn.writtenRecordYellow.toString();
+		form.data.writtenRecordYellow = turn.writtenRecordYellow.toString(); */
+	}
+
+	function saveChanges() {
+		console.log();
 	}
 </script>
 
 <Form.Root
-	method="POST"
-	{form}
+	form={data.form}
 	schema={formSchema}
 	let:config
 	class="max-w-[600px]"
-	on:submit={() => (isSaving = true)}
+	on:submit={() => saveChanges()}
 >
 	<Form.Field name="cardsCost" {config}>
 		<Form.Input class="hidden" type="number" value={cardsCost} />
@@ -83,12 +128,12 @@
 	</Form.Field>
 	<Form.Field name="people" {config}>
 		<Form.Label>People</Form.Label>
-		<Form.Input type="number" min="0" max="55" />
+		<Form.Input type="number" min="0" max="55" bind:value={$form.people} />
 		<Form.Validation />
 	</Form.Field>
 	<Form.Field name="cities" {config}>
 		<Form.Label>Cities</Form.Label>
-		<Form.Input type="number" min="0" max="9" />
+		<Form.Input type="number" min="0" max="9" bind:value={$form.cities} />
 		<Form.Validation />
 	</Form.Field>
 	<Form.Field name="astAdvance" {config}>
@@ -199,7 +244,7 @@
 			</Form.Label>
 			<Form.MultiSelectAdvances
 				items={civilizationAdvances}
-				turnNumber={data.turn.turnNumber}
+				turnNumber={data.turnNumber}
 				on:costAndDiscount={(e) => setCostAndDiscount(e.detail.cost, e.detail.discount)}
 				on:selectedItemsNames={(e) => (selectedItemsNames = e.detail)}
 			/>
@@ -212,9 +257,9 @@
 		<Form.Validation />
 	</Form.Field>
 	<Spread>
-		<a href="/home">
+		<a href="/">
 			<Button>Back</Button>
 		</a>
-		<Form.Button class="my-4" type="submit" disabled={isSaving}>Save</Form.Button>
+		<Form.Button class="my-4" type="submit">Save</Form.Button>
 	</Spread>
 </Form.Root>

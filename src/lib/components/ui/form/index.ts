@@ -86,3 +86,88 @@ export {
 	Textarea,
 	Validation
 };
+
+export function useForm(arg0: {
+	schema: ZodObject<
+		{
+			people: ZodString;
+			cities: ZodString;
+			astAdvance: ZodString;
+			cardsCost: ZodString;
+			cardsDiscount: ZodString;
+			civilizationAdvances: ZodString;
+			isDone: ZodBoolean;
+			monumentRed: ZodString;
+			monumentGreen: ZodString;
+			monumentBlue: ZodString;
+			monumentOrange: ZodString;
+			monumentYellow: ZodString;
+			writtenRecordRed: ZodString;
+			writtenRecordGreen: ZodString;
+			writtenRecordBlue: ZodString;
+			writtenRecordOrange: ZodString;
+			writtenRecordYellow: ZodString;
+		},
+		'strip',
+		ZodTypeAny,
+		{
+			people: string;
+			cities: string;
+			astAdvance: string;
+			cardsCost: string;
+			cardsDiscount: string;
+			civilizationAdvances: string;
+			isDone: boolean;
+			monumentRed: string;
+			monumentGreen: string;
+			monumentBlue: string;
+			monumentOrange: string;
+			monumentYellow: string;
+			writtenRecordRed: string;
+			writtenRecordGreen: string;
+			writtenRecordBlue: string;
+			writtenRecordOrange: string;
+			writtenRecordYellow: string;
+		},
+		{
+			people: string;
+			cities: string;
+			astAdvance: string;
+			cardsCost: string;
+			cardsDiscount: string;
+			civilizationAdvances: string;
+			isDone: boolean;
+			monumentRed: string;
+			monumentGreen: string;
+			monumentBlue: string;
+			monumentOrange: string;
+			monumentYellow: string;
+			writtenRecordRed: string;
+			writtenRecordGreen: string;
+			writtenRecordBlue: string;
+			writtenRecordOrange: string;
+			writtenRecordYellow: string;
+		}
+	>;
+	data: {
+		people: string;
+		cities: string;
+		astAdvance: string;
+		cardsCost: string;
+		cardsDiscount: string;
+		monumentRed: string;
+		monumentGreen: string;
+		monumentBlue: string;
+		monumentOrange: string;
+		monumentYellow: string;
+		writtenRecordRed: string;
+		writtenRecordGreen: string;
+		writtenRecordBlue: string;
+		writtenRecordOrange: string;
+		writtenRecordYellow: string;
+		isDone: boolean;
+		civilizationAdvances: string;
+	};
+}) {
+	throw new Error('Function not implemented.');
+}

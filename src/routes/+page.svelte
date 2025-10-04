@@ -11,8 +11,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Sheet from '$lib/components/ui/sheet';
 	import { cardsBoughtStore } from '$lib/stores/cards-bought-store';
-	import { turnAccumulatedStore, turnsStore } from '$lib/stores/turns-store';
-	import type { Turn } from '@prisma/client';
+	import { turnAccumulatedStore, turnsStore, type Turn } from '$lib/stores/turns-store';
 	import { Check, CreditCard, Home, PersonStanding } from 'lucide-svelte';
 
 	let isAddningTurn = false;
@@ -41,17 +40,30 @@
 	turnAccumulatedStore.subscribe((accumulatedTurns) => (accumliatedData = accumulatedTurns));
 
 	async function addTurn() {
-		let turn: Turn;
-		isAddningTurn = true;
+		let newTurn: Turn = {
+			turnNumber: $turnsStore.length + 1,
+			cardsBought: [],
+			cardsCost: 0,
+			cardsDiscount: 0,
+			cities: 0,
+			people: 0,
+			astAdvance: 0,
+			isDone: false,
+			calamities: [],
+			monumentRed: 0,
+			monumentGreen: 0,
+			monumentBlue: 0,
+			monumentOrange: 0,
+			monumentYellow: 0,
+			writtenRecordRed: 0,
+			writtenRecordGreen: 0,
+			writtenRecordBlue: 0,
+			writtenRecordOrange: 0,
+			writtenRecordYellow: 0
+		};
 
-		const response = await fetch('/api/turns', {
-			method: 'POST',
-			body: $turnsStore.length.toString()
-		});
-
-		turn = await response.json();
-
-		turnsStore.set([...$turnsStore, turn]);
+		turnsStore.set([...$turnsStore, newTurn]);
+		localStorage.setItem('empires_turns', JSON.stringify($turnsStore));
 		isAddningTurn = false;
 	}
 </script>
@@ -104,7 +116,7 @@
 				{/each}
 
 				<div class="flex justify-end">
-					<a href={`/home/${turn.id}`}>
+					<a href={`/${turn.turnNumber}`}>
 						<Button type="button">Edit</Button>
 					</a>
 				</div>

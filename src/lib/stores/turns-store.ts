@@ -1,6 +1,6 @@
 import type { CivilizationAdvance } from '$lib/civilizationAdvances/types';
 import { civilizationAdvances } from '$lib/civilizationAdvances/values';
-import type { Turn } from '@prisma/client';
+
 import { derived, writable } from 'svelte/store';
 
 export const turnsStore = writable<Turn[]>([]);
@@ -35,3 +35,25 @@ export const turnAccumulatedStore = derived(turnsStore, (turns) =>
 			}
 		)
 );
+
+export interface Turn {
+	turnNumber: number;
+	cardsBought: string[];
+	cardsCost: number;
+	cardsDiscount: number;
+	cities: number;
+	people: number;
+	astAdvance: number;
+	isDone: boolean;
+	calamities: string[];
+	monumentRed: number;
+	monumentGreen: number;
+	monumentBlue: number;
+	monumentOrange: number;
+	monumentYellow: number;
+	writtenRecordRed: number;
+	writtenRecordGreen: number;
+	writtenRecordBlue: number;
+	writtenRecordOrange: number;
+	writtenRecordYellow: number;
+}
